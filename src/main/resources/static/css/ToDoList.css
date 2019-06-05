@@ -1,0 +1,74 @@
+.main {
+  width: 85%;
+  float: left;
+  max-width: -weblit-calc(100% - 250px);
+  max-width: calc(100% - 250px);
+}
+
+.sideBar {
+  position: relative;
+  width: 15%;
+  float: left;
+  min-width: 250px;
+}
+.profile {
+  position: relative;
+}
+
+td {
+    height: 60px;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25%;
+  margin-left: auto;
+}
+
+.userList, .allTask, .privateTask, .workTask, .addTask {
+  display: block;
+  width: 100%;
+  font-size: 24px;
+}
+
+.listLabel {
+  margin-left: 20%;
+}
+
+
+img {
+  max-width: 100%;
+}
+
+td {
+  text-align: center;
+  vertical-align: baseline;
+}
+
+.table-spacing {
+  border-collapse: separate;
+  border-spacing: 20px 5px;
+}
+
+/*-- for Modal window--*/
+.deleteAlart, .completeAlart{
+  display: none;
+  position: fixed;
+  width: 25%;
+  z-index: 1;
+  top: -10%;
+  left: -10%;
+  height: 120%;
+  width: 120%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modalContents {
+  background-color: white;
+  width: 25%;
+  margin: 40% auto;
+}

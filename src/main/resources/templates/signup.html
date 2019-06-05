@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <title>新規登録</title>
+  </head>
+  <body>
+      <form th:action="@{/signup}" method="post">
+        <label for="username">UserName:</label>
+        <input type="text" id="username" name="username" placeholder="Username" required autofocus>
+        <label for="passwd">Password:</label>
+        <input type="password" id="passwd" name="passwd" placeholder="password" required>
+        <input name="_csrf" type="hidden" value="440c47ce-093b-4fd8-88a9-f86d58bd2095" />
+        <button type="submit" class="btn btn-primary" name="button">新規登録</button>
+      </form>
+  </body>
+</html>
