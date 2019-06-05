@@ -1,1 +1,1 @@
-web:    java -cp target/classes:target/dependency/* com.rabhareit.tailing.TailingApplication.class
+web:    java -cp target/classes:target/dependency/* com.rabhareit.tailing.TailingApplication
