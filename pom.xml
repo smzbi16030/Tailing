@@ -196,11 +196,13 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-core　-->
+		<!--
 		<dependency>
 			<groupId>com.google.firebase</groupId>
 			<artifactId>firebase-core</artifactId>
 			<version>16.0.9</version>
 		</dependency>
+		-->
 
 		<dependency>
 			<groupId>com.google.firebase</groupId>
@@ -209,11 +211,13 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.google.gms/google-services -->
+		<!--
 		<dependency>
 			<groupId>com.google.gms</groupId>
 			<artifactId>google-services</artifactId>
 			<version>3.1.1</version>
 		</dependency>
+		-->
 
 	</dependencies>
 
