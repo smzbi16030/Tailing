@@ -261,7 +261,7 @@
 				<version>1.6.0</version>
 				<configuration>
 					<classpathScope>test</classpathScope>
-					<mainClass>TailingApplication</mainClass>
+					<mainClass>main.TailingApplication</mainClass>
 				</configuration>
 				<executions>
 					<execution>
