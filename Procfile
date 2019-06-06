@@ -1,1 +1,1 @@
-web:    java -cp target/classes:target/dependency/* com.rabhareit.tailing.TailingApplication
+web: java $JAVA_OPTS -jar target/*.jar --server.port=$PORT
