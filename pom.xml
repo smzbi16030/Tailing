@@ -240,7 +240,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>main.TailingApplication</mainClass>
+							<mainClass>com.rabhareit.tailing.TailingApplication</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -261,7 +261,7 @@
 				<version>1.6.0</version>
 				<configuration>
 					<classpathScope>test</classpathScope>
-					<mainClass>main.TailingApplication</mainClass>
+					<mainClass>com.rabhareit.tailing.TailingApplication</mainClass>
 				</configuration>
 				<executions>
 					<execution>
