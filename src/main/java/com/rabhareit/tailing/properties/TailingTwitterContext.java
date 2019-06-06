@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "tailing")
+@ConfigurationProperties
 public class TailingTwitterContext {
     //大文字はダメみたいです(小文字+"-"に変換される)
     //"_"もだめっぽい

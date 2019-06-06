@@ -1,6 +1,7 @@
 package com.rabhareit.tailing.configration;
 
 import com.rabhareit.tailing.entity.TailingSocialUser;
+import com.rabhareit.tailing.properties.TailingTwitterContext;
 import com.rabhareit.tailing.repository.TailingSocialUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -23,12 +24,13 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableSocial
-@ConfigurationProperties("app.social.twitter")
 public class SocialConfiguration extends SocialConfigurerAdapter {
 
   @Autowired
   DataSource dataSource;
 
+  @Autowired
+  TailingTwitterContext context;
 
   @Autowired
   TailingSocialUserRepository tailingSocialUserRepository;
@@ -39,8 +41,7 @@ public class SocialConfiguration extends SocialConfigurerAdapter {
   @Override
   public void addConnectionFactories(ConnectionFactoryConfigurer cfConfig, Environment env) {
     cfConfig.addConnectionFactory(new TwitterConnectionFactory(
-      env.getProperty("tailing.oauthconsumerkey"),
-      env.getProperty("tailing.oauthconsumersecret")
+      context.getOauthconsumerkey(),context.getOauthconsumersecret()
     ));
   }
 
