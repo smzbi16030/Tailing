@@ -37,5 +37,4 @@ src/main/resources/data.sql
 
 ### VS Code ###
 .vscode/
-src/main/java/com/rabhareit/.DS_Store
 *.json
