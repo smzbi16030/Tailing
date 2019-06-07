@@ -35,9 +35,6 @@ public class SocialConfiguration extends SocialConfigurerAdapter {
   @Autowired
   TailingSocialUserRepository tailingSocialUserRepository;
 
-  //@Autowired
-  //ConnectionSignUpImpl connectionSignUpImpl;
-
   @Override
   public void addConnectionFactories(ConnectionFactoryConfigurer cfConfig, Environment env) {
     cfConfig.addConnectionFactory(new TwitterConnectionFactory(

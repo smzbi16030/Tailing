@@ -21,7 +21,7 @@ import java.util.Collection;
  *
  */
 
-//@Service
+@Service
 @Transactional
 public class SocialUserDetailsServiceImpl implements SocialUserDetailsService {
 

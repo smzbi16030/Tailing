@@ -6,43 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+@RestController
 public class SigninController {
 
-  @Autowired
-  TemporaryAccountRepository account;
-
   @RequestMapping("signin")
-  public String accessLoginPage() {
-    return "loginpage";
+  public ModelAndView accessLoginPage(ModelAndView mav) {
+    mav.setViewName("loginpage");
+    return mav;
   }
 
   @RequestMapping("sig")
-  public String accessRegistration() {
-    return "signup";
-  }
-
-  @PostMapping("signup")
-  public String insertNewUser(@RequestParam(name = "username", required = true) String username, @RequestParam(name = "passwd", required = true) String passwd) {
-    PasswordEncoder pass = new BCryptPasswordEncoder();
-    TemporaryAccount newAccount = new TemporaryAccount(username, pass.encode(passwd), false);
-    account.saveAndFlush(newAccount);
-    return "redirect:/home";
+  public ModelAndView accessRegistration(ModelAndView mav) {
+    mav.setViewName("signup");
+    return mav;
   }
 
   @RequestMapping("signout")
-  public String accessLogoutPage() {
-    return "signout";
-  }
-
-  @RequestMapping("delete/accountdlt/{id}")
-  public String deleteAccount(@PathVariable Long id) {
-    account.deleteById(id);
-    return "redirect:/home";
+  public ModelAndView accessLogoutPage(ModelAndView mav) {
+    mav.setViewName("signout");
+    return mav;
   }
 }

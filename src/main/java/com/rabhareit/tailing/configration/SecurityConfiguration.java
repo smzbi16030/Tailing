@@ -53,14 +53,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http//.authorizeRequests()
-        //.antMatchers("/auth/twitter").permitAll()
-        //.antMatchers("/api/**").authenticated()
-        //.and()
-        //  .apply(springSocialConfigurer()
-        //         .connectionAddedRedirectUrl("/home")
-        //         .defaultFailureUrl("/signin?error=twitter"))
-        //.and()
+    http.authorizeRequests()
+        .antMatchers("/auth/twitter").permitAll()
+        .antMatchers("/api/**").authenticated()
+        .and()
+          .apply(springSocialConfigurer()
+                 .connectionAddedRedirectUrl("/home")
+                 .defaultFailureUrl("/signin?error=twitter"))
+        .and()
           .formLogin()
             .loginPage("/signin")
             .loginProcessingUrl("/signin/authenticate")
@@ -87,6 +87,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
           .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
         .and()
           .rememberMe()
+          .useSecureCookie(true)
         .and()
           .csrf().disable();
   }
@@ -114,25 +115,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     return new SpringSocialConfigurer();
   }
 
-  @Autowired
+  @Bean
   public RestTemplate restTemplate() {
 
     HttpClient httpClient = HttpClients.custom()
-        .setDefaultRequestConfig(RequestConfig.custom()
-            .setCookieSpec(CookieSpecs.STANDARD).build())
+        .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
         .build();
 
-    RequestConfig requestConfig = RequestConfig.custom()
-        .setCookieSpec(CookieSpecs.STANDARD)
-        .build();
+    RequestConfig requestConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
     HttpComponentsClientHttpRequestFactoryAddBean factory = new HttpComponentsClientHttpRequestFactoryAddBean();
     factory.mergeRequestConfiguration(requestConfig);
+    factory.setHttpClient(httpClient);
     return new RestTemplate(factory);
   }
 
 
+  /* *
+   *
   @Autowired
-  public ServletContextInitializer servletContextInitializer(@Value("${secure.cookie}")boolean secure) {
+  public ServletContextInitializer servletContextInitializer(@Value("${secure_cookie}")boolean secure) {
 
     ServletContextInitializer servletContextInitializer = new ServletContextInitializer() {
       @Override
@@ -144,6 +145,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     };
     return servletContextInitializer;
   }
+
+   */
 
 
 }
