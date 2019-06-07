@@ -29,11 +29,22 @@
 
 	<dependencies>
 
+		<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-war-plugin -->
+<!--
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-war-plugin</artifactId>
+			<version>3.2.3</version>
+		</dependency>
+-->
+
+		<!--
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		-->
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
 		<dependency>
@@ -53,6 +64,7 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>5.1.5.RELEASE</version>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-oauth2-client</artifactId>
@@ -61,6 +73,7 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-oauth2-jose</artifactId>
 		</dependency>
+		-->
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf -->
 		<!--
@@ -226,8 +239,21 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.rabhareit.tailing.TailingApplication</mainClass>
+					<layout>ZIP</layout>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
+
 			<!-- 実行可能jarファイル用のプラグイン -->
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -235,7 +261,7 @@
 				<configuration>
 					<finalName>test</finalName>
 					<descriptorRefs>
-						<!-- 依存するリソースをすべてjarに同梱する -->
+						<- 依存するリソースをすべてjarに同梱する ->
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
 					<archive>
@@ -246,7 +272,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<!-- idタグは任意の文字列であれば何でもよい -->
+						<!- idタグは任意の文字列であれば何でもよい ->
 						<id>make-assembly</id>
 						<phase>package</phase>
 						<goals>
@@ -255,6 +281,8 @@
 					</execution>
 				</executions>
 			</plugin>
+			-->
+			<!--
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -270,6 +298,13 @@
 						<goals><goal>java</goal></goals>
 					</execution>
 				</executions>
+			</plugin>
+			-->
+
+			<plugin>
+				<groupId>com.heroku.sdk</groupId>
+				<artifactId>heroku-maven-plugin</artifactId>
+				<version>2.0.8</version>
 			</plugin>
 		</plugins>
 	</build>
