@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.rabhareit</groupId>
 	<artifactId>Tailing</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Tailing</name>
 	<description>Demo project</description>
