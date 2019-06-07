@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Tailing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--- css files --->
+    <link rel="stylesheet" href="/css/ToDoRegist.css">
+  <!-- 確認用 -->
+    <link rel="stylesheet" href="../static/css/ToDoRegist.css">
+    <link rel="stylesheet" href="../static/css/inputStyle.css">
+    <link rel="stylesheet" href="../static/css/titleTweak.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/FormComponentDesign.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap-datepicker/bootstrap-datepicker.min.css">
+  <!--Internal css for fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <!--Internal css for bootstrap-->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <!--css for InputStyle-->
+    <link rel="stylesheet" href="/css/inputStyle.css">
+    <link rel="stylesheet" href="/css/titleTweak.css">
+  <!--Internal css for InputStyle-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- css for FormComponentDesign -->
+    <link rel="stylesheet" type="text/css" href="/css/FormComponentDesign.css">
+  <!-- css for Bootstrap datepicker -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-datepicker/bootstrap-datepicker.min.css">
+  <!--- css files --->
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Tailing</a>
+    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse collapse" id="navbarSupportedContent"><!-- Style="???" -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">ホーム <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <form th:action="@{/signout}" method="post">
+            <button type="submit" class="btn btn-primary" name="signout">
+              <a class="nav-link" th:href="@{/signout}">ログアウト</a>
+            </button>
+          </form>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCentered">やることを追加</button>
+  <!-- Modal -->
+  <div class="modal" id="exampleModalCentered" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <form class="addTask" th:action="@{list}" method="post" th:object="${formModel}" name="formModel"><!-- 見た目がかわる -->
+          <div class="modal-header">
+            <div class="textbox titlebox">
+              <input id="email" required="" type="text" th:field="*{title}"><label for="email">タイトル</label>
+              <div class="error">タイトルを入力してください</div>
+              <!-- <div class="info"><div class="tooltip">タイトルを決めてください</div></div> -->
+            </div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <div aria-hidden="true">×</div>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="limitInput regist">
+              <span class="limit">
+                <i class="fas fa-hourglass-half"></i>
+              </span>
+              <span class="limit">
+                <input type="date" name="limit" th:field="*{limit}">
+                <span class="info">
+                  <span class="tooltip">期限を決めてください</span>
+                </span>
+              </span>
+            </div>
+            <!-- resize:none が効かない -->
+            <div class="regist">
+              <div class="regist">
+                <span class="memo">
+                  <i class="fas fa-pen"></i>
+                </span>
+                <span class="memo">
+                  <textarea name="discription" class="discription" placeholder="説明を入力" id="discInput" cols="30" rows="10" th:field="*{memo}"></textarea>
+                </span>
+                <div class="info">
+                  <div class="tooltip">補足情報があれば入力してください</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+            <button type="submit" class="btn btn-primary">追加</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!--- Script files --->
+  <!-- 確認用 -->
+    <script src="../static/js/rise.js" type="text/javascript"></script>
+    <script src="../static/js/FormComponentDesign.js"></script>
+    <script src="../static/js/MaterialDesignInputs.js"></script>
+    <script src="../static/js/inputStyle.js"></script>
+    <script src="../static/js/regist.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap-datepicker/locales/bootstrap-datepicker.ja.min.js"></script>
+  <!-- external js files -->
+    <script src="/js/rise.js" type="text/javascript"></script>
+    <script src="/js/regist.js"></script>
+  <!--Internal js for bootstrap-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  <!-- Script for InputStyle -->
+    <script src="/js/inputStyle.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <!-- script for FormComponentDesign -->
+    <script src="/js/FormComponentDesign.js"></script>
+  <!-- scripts for bootstrap-datepicker -->
+    <script type="text/javascript" src="/js/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-datepicker/locales/bootstrap-datepicker.ja.min.js"></script>
+  <!--- script files --->
+
+</body>
+</html>

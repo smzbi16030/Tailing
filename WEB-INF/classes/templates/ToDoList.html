@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>ToDoリスト</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--- css files --->
+  <!-- External css for fontawesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <!-- External css for bootstrap -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <!--Internal css for InputStyle-->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--css for InputStyle-->
+  <link rel="stylesheet" href="/css/inputStyle.css">
+  <link rel="stylesheet" href="/css/titleTweak.css">
+  <!-- css for FormComponentDesign -->
+  <link rel="stylesheet" type="text/css" href="/css/FormComponentDesign.css">
+  <!-- css for Bootstrap datepicker -->
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap-datepicker/bootstrap-datepicker.min.css">
+  <!-- css  -->
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/ToDoList.css">
+  <link rel="stylesheet" href="/css/ToDoRegist.css">
+  <!-- 確認用 -->
+  <link rel="stylesheet" type="text/css" href="../static/css/ToDoRegist.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/inputStyle.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/titleTweak.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/ToDoList.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/FormComponentDesign.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/bootstrap-datepicker/bootstrap-datepicker.min.css">
+  <!--- css files --->
+
+</head>
+
+<body>
+<!-- Minimize the use of bootstrap -->
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand" href="/home">Tailing</a>
+  <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="navbar-collapse collapse" id="navbarSupportedContent"><!-- Style="???" -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">ホーム <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <form th:action="@{/signout}" method="post">
+          <button type="submit" class="btn btn-primary" name="signout">
+            <a class="nav-link" th:href="@{/signout}">ログアウト</a>
+          </button>
+        </form>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+<div class="sideBar">
+  <div class="profile">
+    <!-- Insert Twitter header image here. -->
+    <img src="/image/sampleHeader.png" alt="ツイッターバナー画像">
+    <div class="icon">
+      <img src="/image/sampleIcon.png" alt="アイコン">
+    </div>
+  </div>
+
+  <div class="addTask">
+    <button type="button" class="btn btn-primary addTaskBtn" data-toggle="modal" data-target="#exampleModalCentered"><i class="fas fa-plus"></i>　やることを追加</button>
+    <div class="modal" id="exampleModalCentered" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <form class="addTask" th:action="@{addTask}" method="post" th:object="${formModel}" name="formModel">
+              <div class="modal-header">
+                <div class="textbox titlebox">
+                  <input type="hidden" name="userid" th:value="${ownerid}">
+                  <input id="email" required="" type="text" th:field="*{title}"><label for="email">タイトル</label>
+                  <div class="error">タイトルを入力してください</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <div aria-hidden="true">×</div>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="limitInput regist">
+                  <span class="limit">
+                    <i class="fas fa-hourglass-half"></i>
+                  </span>
+                  <span class="limit">
+                    <input type="date" name="limit" th:field="*{limit}">
+                    <span class="info">
+                      <span class="tooltip">期限を決めてください</span>
+                    </span>
+                  </span>
+                </div>
+                <div class="regist">
+                  <span class="memo">
+                    <i class="fas fa-pen"></i>
+                  </span>
+                  <span class="memo">
+                    <textarea name="discription" class="discription" placeholder="説明を入力" id="discInput" cols="30" rows="10" th:field="*{memo}"></textarea>
+                  </span>
+                  <div class="info">
+                    <div class="tooltip">補足情報があれば入力してください</div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                <button type="submit" class="btn btn-primary">追加</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <span class="userList">
+    <label for="userList"><span sec:authentication="name"></span>のリスト</label>
+  </span>
+  <a href="#">
+    <span class="allTask">
+      <label for="allTask" class="listLabel">すべてのタスク</label>
+    </span>
+  </a>
+</div>
+
+<div class="main">
+    <span th:if="${noTaskFlag}">
+      <span>現在実行中のタスクはありません。</span>
+    </span>
+  <span th:unless="${noTaskFlag}">
+      <h1>タスクリスト</h1>
+      <div>
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>タイトル</th>
+            <th>期限</th>
+            <th>メモ</th>
+            <th>notifFlag</th>
+            <th></th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <div class="tasks" th:each="task : ${taskList}">
+            <tr>
+              <th height="60" scope="row"></th>
+              <td height="60" th:text="${task.title}"></td>
+              <td height="60" th:text="${task.limit}"></td>
+              <td height="60" th:text="${task.memo}"></td>
+              <td height="60">□</td>
+              <td height="60">
+                <form class="" th:action="@{completedtask}" method="post" th:object="${completeId}" onsubmit="return compCheck()">
+                  <input type="hidden" name="completeId" th:value="${task.id}" >
+                  <button type="submit" id="btn-complete" name="dcompbtn" class="btn btn-info btn-delete">完了</button>
+                </form>
+              </td>
+              <td height="60">
+                <form class="" th:action="@{deltask}" method="post" th:object="${delId}" onsubmit="return dltCheck()">
+                  <input type="hidden" name="delId" th:value="${task.id}" >
+                  <button type="submit" id="btn-delete" name="deletebtn" class="btn btn-danger btn-delete">削除</button>
+                </form>
+              </td>
+            </tr>
+          </div>
+          </tbody>
+        </table>
+      </div>
+    </span>
+</div>
+
+<!-- script files -->
+<!-- Internal scripts -->
+<script type="text/javascript" src="/js/deleteButton.js"></script>
+<script type="text/javascript" src="/js/completeButton.js"></script>
+<script src="/js/rise.js" type="text/javascript"></script>
+<script src="/js/regist.js"></script>
+<!-- Script for InputStyle -->
+<script src="/js/inputStyle.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<!-- script for FormComponentDesign -->
+<script src="/js/FormComponentDesign.js"></script>
+<!-- scripts for bootstrap-datepicker -->
+<script type="text/javascript" src="/js/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap-datepicker/locales/bootstrap-datepicker.ja.min.js"></script>
+<!-- External script for bootstrap -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<!-- script files -->
+</body>
+</html>
