@@ -4,6 +4,7 @@ HELP.md
 src/main/webapp/
 
 .DS_store
+.env
 
 src/main/resources/.gitignore
 src/main/resources/application.properties
