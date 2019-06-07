@@ -25,10 +25,8 @@ import java.util.Collection;
 @Transactional
 public class SocialUserDetailsServiceImpl implements SocialUserDetailsService {
 
-  @Autowired
-  TailingSocialUserRepository socialUserRepository;
+  private TailingSocialUserRepository socialUserRepository;
 
-  @Autowired
   private PasswordEncoder passwordEncoder;
 
   @Override
@@ -43,8 +41,7 @@ public class SocialUserDetailsServiceImpl implements SocialUserDetailsService {
     }
 
     //What Username mean!? "twitter id(long)" or "user id(@~~~)" or "screen name"
-    SocialUserDetails socialUserDetails = new TailingSocialUser(account.getUsername(),passwordEncoder.encode(account.getPassword()),getAuthorities(account));
-    return socialUserDetails;
+    return new TailingSocialUser(account.getUsername(),passwordEncoder.encode(account.getPassword()),getAuthorities(account));
   }
 
   private Collection<GrantedAuthority> getAuthorities(TailingSocialUser account) {
