@@ -5,8 +5,8 @@ src/main/webapp/
 
 .DS_store
 .env
+.properties
 
-src/main/resources/.gitignore
 src/main/resources/application.properties
 src/main/resource/*.properties
 src/main/resources/application.properties.bak
