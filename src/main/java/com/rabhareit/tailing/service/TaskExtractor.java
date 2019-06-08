@@ -1,27 +1,28 @@
 package com.rabhareit.tailing.service;
 
-import com.rabhareit.tailing.entity.TaskModel;
-import com.rabhareit.tailing.repository.TasksModelRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.Map;
 
 public class TaskExtractor {
 
-  public String tweetDraft(TasksModelRepository repo) {
-    List<TaskModel> allTask = repo.findAll();
+  @Autowired
+  private JdbcTemplate jdbc;
+
+  public String tweetDraft() {
+    List<Map<String, Object>> allTask = jdbc.queryForList("select * from Task_model");
     //サービスのUrl入れたり云々
     return speakAllTask(allTask);
   }
 
   // TODO ツイート本文のStringが140文字を超えた場合の例外処理
-  public String speakAllTask(List<TaskModel> taskList) {
+  public String speakAllTask(List<Map<String, Object>> taskList) {
     StringBuffer status = new StringBuffer("\n");
-    taskList.stream().forEach(new Consumer<TaskModel>() {
-      public void accept(TaskModel task) {
-        String str = task.getTitle()+":"+task.getLimit()+"まで\n";
-        status.append(str);
-      }
+    taskList.stream().forEach(task -> {
+      String str = task.get("title")+":"+task.get("deadline")+"まで\n";
+      status.append(str);
     });
     String tweetstatus = status.toString();
     return tweetstatus;

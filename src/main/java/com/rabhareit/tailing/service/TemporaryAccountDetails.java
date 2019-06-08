@@ -52,9 +52,5 @@ public class TemporaryAccountDetails implements UserDetails {
     return user.isEnabled();
   }
 
-  public TemporaryAccount getAccount() {
-    return user;
-  }
-
 
 }

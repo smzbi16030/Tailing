@@ -1,13 +1,9 @@
 package com.rabhareit.tailing.service;
 
 import com.rabhareit.tailing.entity.TailingSocialUser;
-import com.rabhareit.tailing.entity.TemporaryAccount;
 import com.rabhareit.tailing.repository.TailingSocialUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.security.SocialUserDetails;

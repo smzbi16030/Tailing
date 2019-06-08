@@ -7,7 +7,7 @@ src/main/webapp/
 .env
 *.properties
 
-src/main/resources/data.sql
+src/main/resources/data.sql.bak
 
 ### STS ###
 .apt_generated

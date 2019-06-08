@@ -1,9 +1,9 @@
 package com.rabhareit.tailing.web;
 
 import com.rabhareit.tailing.properties.TailingTwitterContext;
-import com.rabhareit.tailing.repository.TasksModelRepository;
 import com.rabhareit.tailing.service.TaskExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import twitter4j.*;
@@ -15,7 +15,7 @@ import twitter4j.conf.ConfigurationBuilder;
 public class AdminContoroller {
 
     @Autowired
-    public TasksModelRepository taskRepo;
+    private JdbcTemplate jdbc;
 
     @Autowired
     TailingTwitterContext context;
@@ -31,7 +31,6 @@ public class AdminContoroller {
 
         Twitter twitter = new TwitterFactory(conf).getInstance();
         TwitterStream twStream = new TwitterStreamFactory(conf).getInstance();
-        TaskExtractor taskext = new TaskExtractor();
 
         StatusListener listener = new StatusListener() {
 
@@ -45,7 +44,7 @@ public class AdminContoroller {
                     System.out.println("id = " + status.getId() + ", screenName = " + status.getUser().getScreenName() + ", text = " + status.getText());
                     System.out.println(" -> tweet to @"+ status.getUser().getScreenName());
                     try {
-                        twitter.updateStatus("@" + status.getUser().getScreenName() +" "+ taskext.tweetDraft(taskRepo));
+                        twitter.updateStatus("@" + status.getUser().getScreenName() +" "+ (new TaskExtractor()).tweetDraft());
                     } catch(NullPointerException npe) {
                         npe.printStackTrace();
                     } catch(TwitterException te) {

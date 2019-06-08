@@ -1,28 +1,27 @@
 package com.rabhareit.tailing.service;
 
 import com.rabhareit.tailing.entity.TemporaryAccount;
-import com.rabhareit.tailing.repository.TemporaryAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class TemporaryAccountService {
 
   @Autowired
-  TemporaryAccountRepository repo;
+  private JdbcTemplate jdbc;
 
-  public Optional<TemporaryAccount> getAccountById(Long id) {
-    return repo.findById(id);
+  String[] arg = new String[1];
+
+  public TemporaryAccount getAccountById(Long id) {
+    return jdbc.queryForObject("select * from temporary_account where id = ?",arg,TemporaryAccount.class);
   }
 
   public void saveNewAccount(TemporaryAccount account) {
-    System.err.printf("username: %s (id: %s ) is saved.",account.getUsername(),account.getId());
-    repo.saveAndFlush(account);
+    //TODO jdbcTemplate を使った実装
   }
 
   public void deleteById(Long id) {
-    repo.deleteById(id);
+    //TODO jdbcTemplate を使った実装
   }
 }

@@ -1,8 +1,8 @@
 package com.rabhareit.tailing.service;
 
 import com.rabhareit.tailing.entity.TemporaryAccount;
-import com.rabhareit.tailing.repository.TemporaryAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +18,7 @@ import java.util.Collection;
 public class TemporaryAccountDetailServiceImple implements UserDetailsService {
 
   @Autowired
-  private TemporaryAccountRepository repository;
+  private JdbcTemplate jdbc;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -28,8 +28,9 @@ public class TemporaryAccountDetailServiceImple implements UserDetailsService {
     if (username == null || "".equals(username)) {
       throw new UsernameNotFoundException("Username is empty");
     }
-
-    TemporaryAccount account = repository.findByUsername(username);
+    String[] arg = new String[1];
+    arg[0] = username;
+    TemporaryAccount account = jdbc.queryForObject("select * from temporary_account where username = ?",arg,TemporaryAccount.class);
     if (account == null) {
       throw new UsernameNotFoundException("User not found: " + username);
     }
@@ -55,13 +56,11 @@ public class TemporaryAccountDetailServiceImple implements UserDetailsService {
 
   @Transactional
   public void registerAdmin(String username, String password) {
-    TemporaryAccount user = new TemporaryAccount(username, passwordEncoder.encode(password),true);
-    repository.save(user);
+    jdbc.update("insert into temporary_account values (?,?,?,?)",username,passwordEncoder.encode(password),true,true);
   }
 
   @Transactional
   public void registerUser(String username, String password) {
-    TemporaryAccount user = new TemporaryAccount(username, passwordEncoder.encode(password),false);
-    repository.save(user);
+    jdbc.update("insert into temporary_account values (?,?,?,?)",username,passwordEncoder.encode(password),true,false);
   }
 }

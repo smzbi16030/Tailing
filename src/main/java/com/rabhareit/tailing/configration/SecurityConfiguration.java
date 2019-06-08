@@ -77,7 +77,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .permitAll()
         .and()
           .authorizeRequests()
-            .antMatchers("/resources/**","favicon.ico","auth/**","signin/**","signup/**").permitAll()
+            .antMatchers("/resources/**","/favicon.ico","/auth/**","/signin/**","/signup/**","/sig/**").permitAll()
             .anyRequest().authenticated()
         .and()
           .headers().frameOptions().disable()  //for h2
