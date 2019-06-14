@@ -10,16 +10,20 @@
 	</parent>
 	<groupId>com.rabhareit</groupId>
 	<artifactId>Tailing</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Tailing</name>
-	<description>Demo project</description>
 
 	<repositories>
 		<repository>
 			<id>maven.google.com</id>
 			<name>maven.google.com</name>
 			<url>https://maven.google.com/</url>
+		</repository>
+		<repository>
+			<id>SpringLibRelease</id>
+			<name>SpringLibRelease</name>
+			<url>http://repo.spring.io/libs-release/</url>
 		</repository>
 	</repositories>
 
@@ -41,7 +45,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
@@ -200,29 +203,6 @@
 			<version>3.9</version>
 		</dependency>
 
-		<!-- firebase -->
-		<!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-core　-->
-		<!--
-		<dependency>
-			<groupId>com.google.firebase</groupId>
-			<artifactId>firebase-core</artifactId>
-			<version>16.0.9</version>
-		</dependency>
-		-->
-		<dependency>
-			<groupId>com.google.firebase</groupId>
-			<artifactId>firebase-admin</artifactId>
-			<version>6.8.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.google.gms/google-services -->
-		<!--
-		<dependency>
-			<groupId>com.google.gms</groupId>
-			<artifactId>google-services</artifactId>
-			<version>3.1.1</version>
-		</dependency>
-		-->
-
 		<!-- PostgreSQL -->
 		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>
@@ -234,6 +214,7 @@
 
 		<!-- http client -->
         <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<!--
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
@@ -244,6 +225,14 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpasyncclient</artifactId>
 			<version>4.1.3</version>
+		</dependency>
+		-->
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-aws-autoconfigure -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-aws-autoconfigure</artifactId>
+			<version>2.1.1.RELEASE</version>
 		</dependency>
 
 	</dependencies>

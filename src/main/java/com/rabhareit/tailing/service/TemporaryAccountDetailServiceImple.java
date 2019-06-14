@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class TemporaryAccountDetailServiceImple implements UserDetailsService {
@@ -30,16 +32,13 @@ public class TemporaryAccountDetailServiceImple implements UserDetailsService {
     }
     String[] arg = new String[1];
     arg[0] = username;
-    TemporaryAccount account = jdbc.queryForObject("select * from temporary_account where username = ?",arg,TemporaryAccount.class);
-    if (account == null) {
+    List<Map<String, Object>> account = jdbc.queryForList("select * from temporary_account where username = ?", username);
+    if (account.get(0) == null) {
       throw new UsernameNotFoundException("User not found: " + username);
     }
 
-    if (!account.isEnabled()) {
-      throw new UsernameNotFoundException("User not found: " + username);
-    }
-
-    UserDetails userDetails = new TemporaryAccountDetails(account,getAuthorities(account));
+    TemporaryAccount temp = new TemporaryAccount((String) account.get(0).get("username"),(String)account.get(0).get("passwd"),false);
+    UserDetails userDetails = new TemporaryAccountDetails(temp,getAuthorities(temp));
 
     return userDetails;
   }

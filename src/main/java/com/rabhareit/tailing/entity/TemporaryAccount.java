@@ -5,9 +5,6 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
-@Entity
-@Table(name="Temporary_Account")
 public class TemporaryAccount {
 
   public TemporaryAccount() {}

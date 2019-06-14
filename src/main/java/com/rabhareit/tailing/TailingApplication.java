@@ -26,6 +26,7 @@ public class TailingApplication extends SpringBootServletInitializer {
     SpringApplication.run(TailingApplication.class, args);
   }
 
+
   @Override
   protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
     return application.sources(TailingApplication.class);

@@ -1,17 +1,16 @@
 package com.rabhareit.tailing.service;
 
 import com.rabhareit.tailing.entity.TailingSocialUser;
-import com.rabhareit.tailing.repository.TailingSocialUserRepository;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.social.connect.UserProfile;
 
-import javax.transaction.Transactional;
 import java.util.Objects;
 
+/**
+ * TODO JdbcTemplateを使った実装
+ */
 public class SignUpService {
-
-  TailingSocialUserRepository socialUserRepository;
-
+  
   //@Transactional
   public TailingSocialUser createUser(UserProfile userProfile) {
     String userId = "";

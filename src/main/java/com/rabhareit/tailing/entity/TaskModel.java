@@ -5,8 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.sql.Date;
 
-@Entity
 public class TaskModel {
 
   @Id
@@ -18,12 +18,8 @@ public class TaskModel {
   private String title;
 
   @Column(name="deadLine", nullable=false)
-  private String deadLine;
-
-  /*	@Temporal(TemporalType.DATE)
-  @Column(name="deadLine", nullable=false)
   private Date deadLine;
-*/
+
   @Column(name="memo")
   private String memo;
 
@@ -31,7 +27,7 @@ public class TaskModel {
 
   }
 
-  public TaskModel(String title, String limit, String memo) {
+  public TaskModel(String title, Date limit, String memo) {
     setTitle(title);
     setLimit(limit);
     setMemo(memo);
@@ -53,16 +49,6 @@ public class TaskModel {
     this.title = title;
   }
 
-  public String getLimit() {
-    return deadLine;
-  }
-
-  public void setLimit(String deadLine) {
-    this.deadLine = deadLine;
-  }
-
-
-  /*
   public Date getLimit() {
     return deadLine;
   }
@@ -70,7 +56,8 @@ public class TaskModel {
   public void setLimit(Date deadLine) {
     this.deadLine = deadLine;
   }
-*/
+
+
   public String getMemo() {
     return memo;
   }

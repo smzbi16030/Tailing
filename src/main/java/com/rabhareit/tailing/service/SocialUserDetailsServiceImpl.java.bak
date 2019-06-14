@@ -1,7 +1,6 @@
 package com.rabhareit.tailing.service;
 
 import com.rabhareit.tailing.entity.TailingSocialUser;
-import com.rabhareit.tailing.repository.TailingSocialUserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,7 +13,7 @@ import javax.transaction.Transactional;
 import java.util.Collection;
 /**
  * Social ログイン時の userDetailService として利用
- *
+ * TODO JdbcTemplateを使った実装
  */
 
 @Service

@@ -80,7 +80,7 @@
           <form class="addTask" th:action="@{addTask}" method="post" th:object="${formModel}" name="formModel">
               <div class="modal-header">
                 <div class="textbox titlebox">
-                  <input type="hidden" name="userid" th:value="${ownerid}">
+                  <input type="hidden" name="userid" th:field="*{ownerId}" th:value="${loginId}">
                   <input id="email" required="" type="text" th:field="*{title}"><label for="email">タイトル</label>
                   <div class="error">タイトルを入力してください</div>
                 </div>
@@ -94,7 +94,7 @@
                     <i class="fas fa-hourglass-half"></i>
                   </span>
                   <span class="limit">
-                    <input type="date" name="limit" th:field="*{limit}">
+                    <input type="date" name="limit" th:field="*{deadline}">
                     <span class="info">
                       <span class="tooltip">期限を決めてください</span>
                     </span>
@@ -156,7 +156,7 @@
             <tr>
               <th height="60" scope="row"></th>
               <td height="60" th:text="${task.title}"></td>
-              <td height="60" th:text="${task.limit}"></td>
+              <td height="60" th:text="${task.deadline}"></td>
               <td height="60" th:text="${task.memo}"></td>
               <td height="60">□</td>
               <td height="60">

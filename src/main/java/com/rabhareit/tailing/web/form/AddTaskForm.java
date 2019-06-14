@@ -3,6 +3,7 @@ package com.rabhareit.tailing.web.form;
 //import java.util.Date;
 
 import javax.validation.constraints.NotNull;
+import java.sql.Date;
 
 public class AddTaskForm {
 
@@ -10,9 +11,11 @@ public class AddTaskForm {
   private String title;
 
   @NotNull
-  private String limit;
+  private Date deadline;
 
   private String memo;
+
+  private String ownerId;
 
   public String getTitle() {
     return title;
@@ -22,12 +25,12 @@ public class AddTaskForm {
     this.title = title;
   }
 
-  public String getLimit() {
-    return limit;
+  public Date getDeadline() {
+    return deadline;
   }
 
-  public void setLimit(String limit) {
-    this.limit = limit;
+  public void setDeadline(Date deadline) {
+    this.deadline = deadline;
   }
 
   public String getMemo() {
@@ -38,9 +41,13 @@ public class AddTaskForm {
     this.memo = memo;
   }
 
+  public String getOwnerId() { return ownerId; }
+
+  public void setOwnerId(String ownerId) { this.ownerId = ownerId; }
+
   public String memoTextnl2br() {
     if (this.memo == null || this.memo.length() == 0) {
-      return null;
+      return "";
     } else {
       return this.memo.replaceAll("\n", "<br>");
     }
