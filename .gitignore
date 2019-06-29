@@ -5,8 +5,9 @@ src/main/webapp/
 
 .DS_store
 .env
-.properties
-.json
+*.properties
+*.json
+*.json.bak
 
 /remind/
 
