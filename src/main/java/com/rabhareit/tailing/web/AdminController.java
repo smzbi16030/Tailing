@@ -1,6 +1,5 @@
 package com.rabhareit.tailing.web;
 
-import com.rabhareit.tailing.configration.FirebaseConfiguration;
 import com.rabhareit.tailing.service.TaskExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,12 +30,9 @@ public class AdminController {
     @Autowired
     private JdbcTemplate jdbc;
 
-    @Autowired
-    FirebaseConfiguration firebase;
-
     @RequestMapping("/firebase")
     public String firebaseConfiguration() throws Exception {
-        firebase.configuration();
+        //firebase.databaseEventListener();
         return "adConfig";
     }
 

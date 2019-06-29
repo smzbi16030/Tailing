@@ -1,5 +1,6 @@
 package com.rabhareit.tailing.service;
 
+import com.rabhareit.tailing.entity.TaskModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -12,7 +13,8 @@ public class TaskExtractor {
   private JdbcTemplate jdbc;
 
   public String tweetDraft() {
-    List<Map<String, Object>> allTask = jdbc.queryForList("select * from Task_model");
+
+    List<Map<String, Object>> allTask = jdbc.queryForList("select * from task_model");
     //サービスのUrl入れたり云々
     return speakAllTask(allTask);
   }
@@ -24,7 +26,6 @@ public class TaskExtractor {
       String str = task.get("title")+":"+task.get("deadline")+"まで\n";
       status.append(str);
     });
-    String tweetstatus = status.toString();
-    return tweetstatus;
+    return status.toString();
   }
 }

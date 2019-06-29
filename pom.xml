@@ -233,6 +233,14 @@
 			<version>6.8.1</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.google.gms/google-services -->
+		<dependency>
+			<groupId>com.google.gms</groupId>
+			<artifactId>google-services</artifactId>
+			<version>3.0.0</version>
+			<scope>runtime</scope>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-aws-autoconfigure -->
 		<!--
 		<dependency>
@@ -286,39 +294,6 @@
 					<configFile>src/main/wlp/server.xml</configFile>
 				</configuration>
 			</plugin>
-
-
-			<!-- 実行可能jarファイル用のプラグイン -->
-			<!--
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<finalName>test</finalName>
-					<descriptorRefs>
-						<- 依存するリソースをすべてjarに同梱する ->
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<archive>
-						<manifest>
-							<mainClass>com.rabhareit.tailing.TailingApplication</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-				<executions>
-					<execution>
-						<!- idタグは任意の文字列であれば何でもよい ->
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			-->
-
 			<plugin>
 				<groupId>com.heroku.sdk</groupId>
 				<artifactId>heroku-maven-plugin</artifactId>

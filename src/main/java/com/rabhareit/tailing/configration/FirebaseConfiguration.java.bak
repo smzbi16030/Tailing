@@ -1,0 +1,141 @@
+package com.rabhareit.tailing.configration;
+
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.database.*;
+import com.rabhareit.tailing.entity.cloud.AccountsPost;
+import com.rabhareit.tailing.service.CompletionListenerImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
+
+import java.io.InputStream;
+public class FirebaseConfiguration {
+
+  @Value("${app.tailing-firebase-json}")
+  String tailingFirebaseJson;
+
+  @Value("${app.tailing-firebase-url}")
+  String tailingFirebaseUrl;
+
+  @Autowired
+  ResourceLoader loader;
+
+  CompletionListenerImpl listenerImpl;
+
+  public void FirebaseConfiguration() throws Exception {
+    Resource resource = loader.getResource("classpath:" + tailingFirebaseJson);
+    FirebaseOptions options;
+    try (InputStream serviceAccount = resource.getInputStream()) {
+      options = new FirebaseOptions.Builder()
+          .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+          .setDatabaseUrl(tailingFirebaseUrl)
+          .build();
+    }
+    FirebaseApp.initializeApp(options);
+  }
+
+  DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+
+
+/**
+ *  Sample code for realtimeDatabase...
+ *
+ *     DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+ *     reference.child("key1").setValue("アンパンマンと",listener);
+ *     reference.child("key2").setValue("イキリみょうがマン",listener);
+ *
+ *     TODO CompletionListenerの使い方
+ *
+ */
+
+  public void databaseEventListener() {
+    //DatabaseReference ref = FirebaseDatabase.getInstance().getReference("tailing-ysk43z");
+    //データが追加された時のイベント
+    ref.addValueEventListener(new ValueEventListener() {
+      @Override //valueイベント
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        //AccountsPost post = dataSnapshot.getValue(AccountsPost.class);
+        //System.out.println(post);
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+        System.out.println("The read failed: " + databaseError.getCode());
+      }
+    });
+
+    //小要素に変更があった場合のイベント
+    ref.addChildEventListener(new ChildEventListener() {
+      //データが小要素として追加されたとき
+      @Override
+      public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+        //追加されたデータを取得
+        //AccountsPost newPost = dataSnapshot.getValue(AccountsPost.class);
+      }
+
+      //小要素のデータが変更されたとき
+      @Override
+      public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+      }
+
+      //小要素のデータが削除されたとき
+      @Override
+      public void onChildRemoved(DataSnapshot dataSnapshot) {
+      }
+
+      //小要素のデータが移動されたとき
+      @Override
+      public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
+      }
+
+      //小要素に対する変更がキャンセルされたとき
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+      }
+    });
+
+    //コールバックを削除するには
+    // イベントの種類と削除するコールバック関数を指定する
+
+    // Create and attach listener
+    ValueEventListener listener = new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot snapshot) {
+
+      }
+
+      @Override
+      public void onCancelled(DatabaseError error) {
+
+      }
+    };
+
+    ref.addValueEventListener(listener);
+
+    // Remove listener
+    ref.removeEventListener(listener);
+
+
+    //コールバックを1回呼び出してから直ちに削除することができるヘルパー関数
+    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        // ...
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+        // ...
+      }
+    });
+
+    ref.child("key1").setValue("アンパンマンと",listenerImpl);
+    ref.child("key2").setValue("イキリみょうがマン",listenerImpl);
+
+  }
+
+}

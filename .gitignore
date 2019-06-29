@@ -5,9 +5,10 @@ src/main/webapp/
 
 .DS_store
 .env
-*.properties
+.properties
+.json
 
-src/main/resources/data.sql.bak
+/remind/
 
 ### STS ###
 .apt_generated
