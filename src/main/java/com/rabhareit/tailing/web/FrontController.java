@@ -74,6 +74,7 @@ public class FrontController {
       }
     } catch (IndexOutOfBoundsException iob) {
       iob.printStackTrace();
+      String imageurl = "null";
     } catch (NullPointerException npe) {
       npe.printStackTrace();
     }
