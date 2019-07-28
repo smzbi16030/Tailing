@@ -32,6 +32,12 @@ public class AdminController {
     @Autowired
     private JdbcTemplate jdbc;
 
+
+    @RequestMapping("/stream/stop")
+    public String streamStop() {
+        return "";
+    }
+
     @RequestMapping("/stream")
     public String administratorConfiguration() throws TwitterException {
         Configuration configuration = new ConfigurationBuilder()
@@ -116,7 +122,7 @@ public class AdminController {
 
 
         FilterQuery filter = new FilterQuery();
-        filter.follow(new long[]{826175150391320576l,715850528002088960L});
+        filter.follow(new long[]{826175150391320576l});
         twStream.filter(filter);
 
         return "adConfig";

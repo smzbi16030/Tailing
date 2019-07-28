@@ -34,7 +34,6 @@ public class FrontController {
     return "top";
   }
 
-
   @RequestMapping("/index")
   public ModelAndView accessIndex(ModelAndView mav) {
     mav.setViewName("index");
@@ -61,7 +60,7 @@ public class FrontController {
       if (taskList.isEmpty()) {
         mav.addObject("loginId",username);
         mav.addObject("imageurl",imageurl);
-        mav.addObject("taskList", taskList); // ?
+        mav.addObject("taskList", taskList);
         mav.addObject("noTaskFlag", true);
         mav.addObject("formModel", (new AddTaskForm()));
       } else {
