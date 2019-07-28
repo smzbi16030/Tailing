@@ -55,8 +55,8 @@ public class AuthenticationEventListener {
      *   Authentication auth = SecurityContextHolder.getContext().getAuthentication();
      *
      *   String userUuid = null;
-     *   if (auth.getPrincipal() instanceof TemporaryAccountDetails) {
-     *     TemporaryAccountDetails userDetails = TemporaryAccountDetails.class.cast(auth.getPrincipal());
+     *   if (auth.getPrincipal() instanceof UserDetails) {
+     *     UserDetails userDetails = TailingUserDetails.class.cast(auth.getPrincipal());
      *     userUuid = userDetails.getAccount().getUuid();
      *   }
      *

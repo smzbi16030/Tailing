@@ -1,6 +1,6 @@
 package com.rabhareit.tailing.web;
 
-import com.rabhareit.tailing.service.TaskExtractor;
+import com.rabhareit.tailing.configration.TwitterConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,12 +10,15 @@ import twitter4j.*;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
+import java.util.List;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/config")
 public class AdminController {
 
     @Value("${app.tailing-consumer-key}")
-    String tailingConsumerKey;
+    private String tailingConsumerKey;
 
     @Value("${app.tailing-consumer-secret}")
     private String tailingConsumerSecret;
@@ -26,27 +29,19 @@ public class AdminController {
     @Value("${app.tailing-access-token-secret}")
     private String tailingAccessTokenSecret;
 
-
     @Autowired
     private JdbcTemplate jdbc;
 
-    @RequestMapping("/firebase")
-    public String firebaseConfiguration() throws Exception {
-        //firebase.databaseEventListener();
-        return "adConfig";
-    }
-
     @RequestMapping("/stream")
     public String administratorConfiguration() throws TwitterException {
-        Configuration conf = new ConfigurationBuilder()
-                .setOAuthConsumerKey(tailingConsumerKey)
-                .setOAuthConsumerSecret(tailingConsumerSecret)
-                .setOAuthAccessToken(tailingAccessToken)
-                .setOAuthAccessTokenSecret(tailingAccessTokenSecret)
-                .build();
-
-        Twitter twitter = new TwitterFactory(conf).getInstance();
-        TwitterStream twStream = new TwitterStreamFactory(conf).getInstance();
+        Configuration configuration = new ConfigurationBuilder()
+            .setOAuthConsumerKey(tailingConsumerKey)
+            .setOAuthConsumerSecret(tailingConsumerSecret)
+            .setOAuthAccessToken(tailingAccessToken)
+            .setOAuthAccessTokenSecret(tailingAccessTokenSecret)
+            .build();
+        Twitter twitter = new TwitterFactory(configuration).getInstance();
+        TwitterStream twStream = new TwitterStreamFactory(configuration).getInstance();
 
         StatusListener listener = new StatusListener() {
 
@@ -57,10 +52,15 @@ public class AdminController {
                     return;
                 } else {
                     // 確認用
-                    System.out.println("id = " + status.getId() + ", screenName = " + status.getUser().getScreenName() + ", text = " + status.getText());
-                    System.out.println(" -> tweet to @"+ status.getUser().getScreenName());
+                    String target = status.getUser().getScreenName();
+                    System.out.println("id = " + status.getId() + ", screenName = " + target + ", text = " + status.getText());
+                    System.out.println(" -> tweet to @" + target);
+
                     try {
-                        twitter.updateStatus("@" + status.getUser().getScreenName() +" "+ (new TaskExtractor()).tweetDraft());
+                        StringBuffer buffer = new StringBuffer();
+                        List<Map<String,Object>> allTask = jdbc.queryForList("select * from task_model where ownerid = ?",target);
+                        allTask.stream().forEach( (task) -> buffer.append(task.get("title") + " : " + task.get("deadline") + "まで" + System.lineSeparator()) );
+                        twitter.updateStatus("@" + target + System.lineSeparator() + buffer.toString());
                     } catch(NullPointerException npe) {
                         npe.printStackTrace();
                     } catch(TwitterException te) {
@@ -114,8 +114,9 @@ public class AdminController {
         // MEMO ストリームの開始
         twStream.addListener(listener);
 
+
         FilterQuery filter = new FilterQuery();
-        filter.follow(new long[]{826175150391320576l});  //MyID(@rispadhar)
+        filter.follow(new long[]{826175150391320576l});
         twStream.filter(filter);
 
         return "adConfig";

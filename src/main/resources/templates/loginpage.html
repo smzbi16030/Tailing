@@ -2,14 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>ログイン</title>
+    <link rel="stylesheet" href="/css/common.css">
     <!-- External css for fontawesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <!-- External css for bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <!-- css for bootstrap-social -->
-    <link rel="stylesheet" href="/css/bootstrap-social/bootstrap-social.css">
-
 </head>
 <body>
   <form th:action="@{/signin/authenticate}" method="post">
@@ -21,8 +19,8 @@
     <button type="submit" class="btn btn-primary" name="button">ログイン</button>
   </form>
 
-  <a class="btn btn-block btn-social btn-twitter" th:href="@{/auth/twitter}">
-      <span class="fa fa-twitter"></span> Sign in with Twitter
+  <a class="button-common" th:href="@{/auth/twitter}">
+      <i class="fab fa-twitter" style="color:#FFFFFF;"></i>Sign in with Twitter
   </a>
 
   <!-- External script for bootstrap -->

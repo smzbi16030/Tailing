@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>ToDoリスト</title>
+  <title>Tailing - リスト</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!--- css files --->
@@ -62,13 +62,12 @@
     </form>
   </div>
 </nav>
-
 <div class="sideBar">
   <div class="profile">
     <!-- Insert Twitter header image here. -->
-    <img src="/image/sampleHeader.png" alt="ツイッターバナー画像">
+    <img th:src="${profileurl}" alt="ツイッターバナー画像">
     <div class="icon">
-      <img src="/image/sampleIcon.png" alt="アイコン">
+      <img th:src="${imageurl}" alt="アイコン">
     </div>
   </div>
 

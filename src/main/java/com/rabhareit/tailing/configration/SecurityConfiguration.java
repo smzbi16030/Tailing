@@ -1,11 +1,6 @@
 package com.rabhareit.tailing.configration;
 
-import com.rabhareit.tailing.inplan.HttpComponentsClientHttpRequestFactoryAddBean;
-import com.rabhareit.tailing.service.TemporaryAccountDetailServiceImple;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.impl.client.HttpClients;
+import com.rabhareit.tailing.service.TailingUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,12 +9,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.savedrequest.NullRequestCache;
 import org.springframework.social.security.SpringSocialConfigurer;
-import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
 
@@ -28,7 +22,7 @@ import javax.sql.DataSource;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Autowired
-  TemporaryAccountDetailServiceImple accountDetailServiceImple;
+  TailingUserDetailsService userDetailsService;
 
   @Autowired
   DataSource dataSource;
@@ -40,10 +34,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.formLogin()
+    http.authorizeRequests()
+          .antMatchers("css/**","js/**","/favicon.ico").permitAll()
+          .anyRequest().authenticated()
+        .and()
+          .formLogin()
             .loginPage("/signin")
             .loginProcessingUrl("/signin/authenticate")
-            .defaultSuccessUrl("/home")
+            .defaultSuccessUrl("/home",true)
             .failureUrl("/signin?param.error=bad_credentials")
             .usernameParameter("username")
             .passwordParameter("passwd")
@@ -52,29 +50,33 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
           .logout()
             .logoutUrl("/signout")
             .logoutSuccessUrl("/")
-            .deleteCookies("JSESSIONID")
             .permitAll()
+            .deleteCookies("JSESSIONID")
         .and()
-          .authorizeRequests()
-            .antMatchers("/resources/**","/favicon.ico","/auth/**","/signin/**","/signup/**","/sig/**").permitAll()
-            .anyRequest().authenticated()
-        .and()
-          .headers().frameOptions().disable()  //for h2
-        .and()
-          .requestCache().requestCache(new NullRequestCache())
-        .and()
-          .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-        .and()
-          .rememberMe()
-          .useSecureCookie(true)
-        .and()
-          .csrf().disable();
+          .apply(springSocialConfigurer().postLoginUrl("/userhome")
+                                             .connectionAddedRedirectUrl("/userhome")
+                                             .defaultFailureUrl("/signin?param.error=bad_credentials")
+          );
+
   }
 
+  @Autowired
+  void configureAuthenticationManager(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService)
+        .passwordEncoder(passwordEncoder());
+  }
 
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(accountDetailServiceImple).passwordEncoder(passwordEncoder());
+  @Bean
+  TextEncryptor textEncryptor() {
+    return new TextEncryptor() {
+      public String encrypt(String plainText) {
+        return Encryptors.noOpText().encrypt(plainText);
+      }
+
+      public String decrypt(String cipherText) {
+        return Encryptors.noOpText().decrypt(cipherText);
+      }
+    };
   }
 
   @Bean
@@ -85,20 +87,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Bean
   SpringSocialConfigurer springSocialConfigurer() {
     return new SpringSocialConfigurer();
-  }
-
-  @Bean
-  public RestTemplate restTemplate() {
-
-    HttpClient httpClient = HttpClients.custom()
-        .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
-        .build();
-
-    RequestConfig requestConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
-    HttpComponentsClientHttpRequestFactoryAddBean factory = new HttpComponentsClientHttpRequestFactoryAddBean();
-    factory.mergeRequestConfiguration(requestConfig);
-    factory.setHttpClient(httpClient);
-    return new RestTemplate(factory);
   }
 
 }

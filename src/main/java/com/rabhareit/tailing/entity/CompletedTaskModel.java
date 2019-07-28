@@ -1,26 +1,17 @@
 package com.rabhareit.tailing.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 public class CompletedTaskModel {
-  @Id
-  @Column(name="id", nullable=false)
+
   private Long id;
 
-  @Column(name="completed", nullable=false)
   private Date completedDate;
 
-  @Column(name="title", nullable=false)
   private String title;
 
-  @Column(name="deadLine", nullable=false)
   private Date deadLine;
 
-  @Column(name="memo")
   private String memo;
 
   public CompletedTaskModel() { }

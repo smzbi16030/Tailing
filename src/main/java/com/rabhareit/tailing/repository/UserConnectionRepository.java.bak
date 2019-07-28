@@ -1,9 +1,0 @@
-package com.rabhareit.tailing.repository;
-
-import com.rabhareit.tailing.entity.UserConnection;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface UserConnectionRepository extends JpaRepository<UserConnection,String> {
-}

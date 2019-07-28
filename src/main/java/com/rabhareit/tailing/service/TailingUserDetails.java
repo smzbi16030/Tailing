@@ -1,18 +1,18 @@
 package com.rabhareit.tailing.service;
 
-import com.rabhareit.tailing.entity.TemporaryAccount;
+import com.rabhareit.tailing.entity.TailingAccount;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class TemporaryAccountDetails implements UserDetails {
+public class TailingUserDetails implements UserDetails {
   private static final long serialVersionUID = -256740067874995659L;
 
-  private TemporaryAccount user;
+  private TailingAccount user;
   private Collection<GrantedAuthority> authorities;
 
-  public TemporaryAccountDetails(TemporaryAccount account, Collection<GrantedAuthority> authorities){
+  public TailingUserDetails(TailingAccount account, Collection<GrantedAuthority> authorities){
     this.user = account;
     this.authorities = authorities;
   }

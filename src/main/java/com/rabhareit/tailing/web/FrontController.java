@@ -29,9 +29,6 @@ public class FrontController {
   @Autowired
   private JdbcTemplate jdbc;
 
-  //@Autowired
-  //TemporaryAccountService accountService;
-
   @RequestMapping("/")
   public String accessTop() {
     return "top";
@@ -44,7 +41,7 @@ public class FrontController {
     return mav;
   }
 
-  @RequestMapping("/home")
+  @RequestMapping("/userhome")
   public ModelAndView accessHome(ModelAndView mav) {
     mav.setViewName("home");
 
@@ -56,19 +53,24 @@ public class FrontController {
   ModelAndView accessList(ModelAndView mav) {
     mav.setViewName("ToDoList");
 
-    //ログイン中のユーザー情報を取得(ここでいいか)
-    //フィールドにするとusernameがnull
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String username = auth.getName();
     try {
-      List<Map<String, Object>> taskList = jdbc.queryForList("select * from task_model");
+      List<Map<String, Object>> images = jdbc.queryForList("select imageurl,profileurl from userconnection where userid = ?",username);
+      String imageurl = (String) images.get(0).get("imageurl");
+      String profileurl = (String) images.get(0).get("profileurl");
+      List<Map<String, Object>> taskList = jdbc.queryForList("select * from task_model where ownerid = ?",username);
       if (taskList.isEmpty()) {
         mav.addObject("loginId",username);
+        mav.addObject("imageurl",imageurl);
+        mav.addObject("profileurl",profileurl);
         mav.addObject("taskList", taskList); // ?
         mav.addObject("noTaskFlag", true);
         mav.addObject("formModel", (new AddTaskForm()));
       } else {
         mav.addObject("loginId",username);
+        mav.addObject("imageurl",imageurl);
+        mav.addObject("profileurl",profileurl);
         mav.addObject("taskList", taskList);
         mav.addObject("noTaskFlag", false);
         mav.addObject("formModel", (new AddTaskForm()) );
@@ -93,7 +95,7 @@ public class FrontController {
                     @RequestParam(name="ownerId", required=true)String ownerId)
   {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    jdbc.update("insert into task_model(title, deadline, memo,ownerid) values (?,?,?,?)",title,tutil.string2SqlDate(deadline),memo,auth.getName());
+    jdbc.update("insert into task_model(title, deadline, memo, ownerid) values (?,?,?,?)",title,tutil.string2SqlDate(deadline),memo,auth.getName());
     return "redirect:/list";
   }
 

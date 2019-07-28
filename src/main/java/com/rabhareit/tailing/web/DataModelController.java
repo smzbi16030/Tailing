@@ -20,7 +20,7 @@ public class DataModelController {
   public String insertNewUser(@RequestParam(name = "username", required = true) String username, @RequestParam(name = "passwd", required = true) String passwd) {
     PasswordEncoder pass = new BCryptPasswordEncoder();
     int result = jdbc.update("insert into temporary_account(username, passwd, enabled, admin) values (?,?,?,?)",username,pass.encode(passwd),true,true);
-    //TemporaryAccount newAccount = new TemporaryAccount(username, pass.encode(passwd), false);
+    //TailingAccount newAccount = new TailingAccount(username, pass.encode(passwd), false);
     //account.saveAndFlush(newAccount);
     return "redirect:/home";
   }

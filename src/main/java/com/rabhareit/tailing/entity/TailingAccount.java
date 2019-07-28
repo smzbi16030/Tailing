@@ -1,39 +1,26 @@
 package com.rabhareit.tailing.entity;
 
-import lombok.Data;
+public class TailingAccount {
 
-import javax.persistence.*;
-import java.io.Serializable;
+  public TailingAccount() {}
 
-public class TemporaryAccount {
-
-  public TemporaryAccount() {}
-
-  public TemporaryAccount(String username, String passwd, boolean isAdomin) {
+  public TailingAccount(String username, String passwd, boolean isAdomin) {
     setUsername(username);
     setPasswd(passwd);
     setEnabled(true);
     setAdmin(isAdomin);
   }
 
-  @Id
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
-  @Column(nullable=false, unique=true)
   private Long id;
 
   //Use username(x ScreenName) on Twitter (@~~~)
-  @Column(nullable=false, unique=true)
   private String username;
 
-  @Column(nullable=false)
   private String passwd;
 
-  @Column(nullable=false)
   private boolean enabled;
 
-  @Column(nullable=false)
   private boolean admin;
-
 
   public Long getId() { return id; }
 

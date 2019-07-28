@@ -1,31 +1,20 @@
 package com.rabhareit.tailing.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.sql.Date;
 
 public class TaskModel {
 
-  @Id
-  @Column(name="id", nullable=false)
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name="title", nullable=false)
   private String title;
 
-  @Column(name="deadLine", nullable=false)
   private Date deadLine;
 
-  @Column(name="memo")
   private String memo;
 
-  public TaskModel() {
+  private String ownerid;
 
-  }
+  public TaskModel() { }
 
   public TaskModel(String title, Date limit, String memo) {
     setTitle(title);
@@ -65,5 +54,14 @@ public class TaskModel {
   public void setMemo(String memo) {
     this.memo = memo;
   }
+
+  public String getOwnerid() {
+    return ownerid;
+  }
+
+  public void setOwnerid(String ownerid) {
+    this.ownerid = ownerid;
+  }
+
 
 }
