@@ -94,13 +94,13 @@ public class FrontController {
   {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     jdbc.update("insert into task_model(title, deadline, memo, ownerid) values (?,?,?,?)",title,tutil.string2SqlDate(deadline),memo,auth.getName());
-    return "redirect:/list";
+    return "redirect:/home";
   }
 
   @PostMapping("/deltask")
   String deleteTask(@RequestParam(name="delId",required=true)String id, ModelAndView mav) {
     jdbc.update("delete from task_model where id = ?",Long.parseLong(id));
-    return "redirect:/list";
+    return "redirect:/home";
   }
 
   @PostMapping("/completedtask")
@@ -109,6 +109,6 @@ public class FrontController {
     List<Map<String, Object>> archiveTask = jdbc.queryForList("select * from task_model where id = " + id);
     jdbc.update("insert into completed_task_model values(?,current_date,?,?,?,?)", archiveTask.get(0).get("id"), archiveTask.get(0).get("title"), archiveTask.get(0).get("deadline"), archiveTask.get(0).get("memo"), archiveTask.get(0).get("ownerId"));
     jdbc.update("delete from task_model where id = " + Long.parseLong(id));
-    return "redirect:/list";
+    return "redirect:/home";
   }
 }
