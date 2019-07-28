@@ -55,7 +55,8 @@ public class FrontController {
     String username = auth.getName();
     try {
       List<Map<String, Object>> images = jdbc.queryForList("select imageurl,profileurl from userconnection where userid = ?",username);
-      String imageurl = (String) images.get(0).get("imageurl");
+      String imageurl = "null";
+      imageurl = (String) images.get(0).get("imageurl");
       List<Map<String, Object>> taskList = jdbc.queryForList("select * from task_model where ownerid = ?",username);
       if (taskList.isEmpty()) {
         mav.addObject("loginId",username);
@@ -72,7 +73,6 @@ public class FrontController {
       }
     } catch (IndexOutOfBoundsException iob) {
       iob.printStackTrace();
-      String imageurl = "null";
     } catch (NullPointerException npe) {
       npe.printStackTrace();
     }
