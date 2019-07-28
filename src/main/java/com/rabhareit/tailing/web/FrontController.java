@@ -105,7 +105,6 @@ public class FrontController {
 
   @PostMapping("/completedtask")
   String archiveTask(@RequestParam(name="completeId",required=true)String id, ModelAndView mav) {
-    //TODO 何らかの手段で存在しないidを受け取った場合のエラー処理
     List<Map<String, Object>> archiveTask = jdbc.queryForList("select * from task_model where id = " + id);
     jdbc.update("insert into completed_task_model values(?,current_date,?,?,?,?)", archiveTask.get(0).get("id"), archiveTask.get(0).get("title"), archiveTask.get(0).get("deadline"), archiveTask.get(0).get("memo"), archiveTask.get(0).get("ownerId"));
     jdbc.update("delete from task_model where id = " + Long.parseLong(id));
