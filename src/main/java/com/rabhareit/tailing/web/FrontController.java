@@ -44,8 +44,6 @@ public class FrontController {
   @RequestMapping("/userhome")
   public ModelAndView accessHome(ModelAndView mav) {
     mav.setViewName("home");
-
-
     return mav;
   }
 
