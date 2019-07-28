@@ -49,7 +49,7 @@ public class FrontController {
     return mav;
   }
 
-  @RequestMapping("/list")
+  @RequestMapping("/home")
   ModelAndView accessList(ModelAndView mav) {
     mav.setViewName("ToDoList");
 

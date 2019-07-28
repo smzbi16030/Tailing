@@ -53,8 +53,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .permitAll()
             .deleteCookies("JSESSIONID")
         .and()
-          .apply(springSocialConfigurer().postLoginUrl("/userhome")
-                                             .connectionAddedRedirectUrl("/userhome")
+          .apply(springSocialConfigurer().postLoginUrl("/home")
+                                             .connectionAddedRedirectUrl("/home")
                                              .defaultFailureUrl("/signin?param.error=bad_credentials")
           );
 
