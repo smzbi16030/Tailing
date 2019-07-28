@@ -58,23 +58,22 @@ public class FrontController {
     try {
       List<Map<String, Object>> images = jdbc.queryForList("select imageurl,profileurl from userconnection where userid = ?",username);
       String imageurl = (String) images.get(0).get("imageurl");
-      String profileurl = (String) images.get(0).get("profileurl");
       List<Map<String, Object>> taskList = jdbc.queryForList("select * from task_model where ownerid = ?",username);
       if (taskList.isEmpty()) {
         mav.addObject("loginId",username);
         mav.addObject("imageurl",imageurl);
-        mav.addObject("profileurl",profileurl);
         mav.addObject("taskList", taskList); // ?
         mav.addObject("noTaskFlag", true);
         mav.addObject("formModel", (new AddTaskForm()));
       } else {
         mav.addObject("loginId",username);
         mav.addObject("imageurl",imageurl);
-        mav.addObject("profileurl",profileurl);
         mav.addObject("taskList", taskList);
         mav.addObject("noTaskFlag", false);
         mav.addObject("formModel", (new AddTaskForm()) );
       }
+    } catch (IndexOutOfBoundsException iob) {
+      iob.printStackTrace();
     } catch (NullPointerException npe) {
       npe.printStackTrace();
     }
