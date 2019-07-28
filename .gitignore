@@ -5,7 +5,7 @@ src/main/webapp/
 
 .DS_store
 .env
-*.properties
+application.properties
 *.json
 *.json.bak
 
