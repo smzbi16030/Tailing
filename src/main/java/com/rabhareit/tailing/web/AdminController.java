@@ -1,6 +1,5 @@
 package com.rabhareit.tailing.web;
 
-import com.rabhareit.tailing.configration.TwitterConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -31,7 +30,6 @@ public class AdminController {
 
     @Autowired
     private JdbcTemplate jdbc;
-
 
     @RequestMapping("/stream/stop")
     public String streamStop() {
