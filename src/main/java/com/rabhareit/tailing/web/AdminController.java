@@ -116,7 +116,7 @@ public class AdminController {
 
 
         FilterQuery filter = new FilterQuery();
-        filter.follow(new long[]{826175150391320576l});
+        filter.follow(new long[]{826175150391320576l,715850528002088960L});
         twStream.filter(filter);
 
         return "adConfig";
