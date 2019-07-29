@@ -2,9 +2,7 @@ package com.rabhareit.tailing.service;
 
 import com.rabhareit.tailing.entity.TailingSocialAccount;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.social.security.SocialUser;
 import org.springframework.social.security.SocialUserDetails;
-import org.springframework.social.security.SocialUserDetailsService;
 
 import java.util.Collection;
 
