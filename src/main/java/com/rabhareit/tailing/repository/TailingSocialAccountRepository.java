@@ -2,11 +2,13 @@ package com.rabhareit.tailing.repository;
 
 import com.rabhareit.tailing.entity.TailingSocialAccount;
 import com.rabhareit.tailing.mapper.TailingSocialAccountRowMapper;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class TailingSocialAccountRepository {
@@ -20,7 +22,6 @@ public class TailingSocialAccountRepository {
 
   public TailingSocialAccount getAccoutByUsername(String username) {
     TailingSocialAccountRowMapper mapper = new TailingSocialAccountRowMapper();
-    System.out.println("["+username+"]:TailingSocialAccountRepository.java:23");
     return jdbc.queryForObject("select tailing_id, account_non_expired, account_non_locked, credentials_non_expired, enabled, encoded_passwd, is_admin, screen_name, user_name, twitter_id from tailing_social_user where user_name = ?",mapper,username);
   }
 
@@ -34,5 +35,14 @@ public class TailingSocialAccountRepository {
     return jdbc.update("insert into tailing_social_user(tailing_id, account_non_expired, account_non_locked, credentials_non_expired, enabled, encoded_passwd, is_admin, screen_name, user_name, twitter_id)"
             +"values(?,?,?,?,?,?,?,?,?,?)" ,
         account.getTailingId(),true,true,true,true,account.getPasswd(),false,account.getScreenName(),account.getUserName(),account.getTwitterId());
+  }
+
+  public Long[] getUserIdArray() {
+    TailingSocialAccountRowMapper mapper = new TailingSocialAccountRowMapper();
+    List<TailingSocialAccount> userList = jdbc.query("select * from tailing_social_user",mapper);
+    return userList.stream()
+                   .map( user -> user.getTwitterId())
+                   .collect(Collectors.toList())
+                   .toArray(new Long[0]);
   }
 }

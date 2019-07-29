@@ -1,5 +1,7 @@
 package com.rabhareit.tailing.web;
 
+import com.rabhareit.tailing.repository.TailingSocialAccountRepository;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,6 +32,9 @@ public class AdminController {
 
     @Autowired
     private JdbcTemplate jdbc;
+
+    @Autowired
+    TailingSocialAccountRepository socialAccountRepository;
 
     @RequestMapping("/stream/stop")
     public String streamStop() {
@@ -117,10 +122,8 @@ public class AdminController {
 
         // MEMO ストリームの開始
         twStream.addListener(listener);
-
-
         FilterQuery filter = new FilterQuery();
-        filter.follow(new long[]{826175150391320576l});
+        filter.follow(ArrayUtils.toPrimitive(socialAccountRepository.getUserIdArray()));
         twStream.filter(filter);
 
         return "adConfig";
