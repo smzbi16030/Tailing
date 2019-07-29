@@ -1,7 +1,6 @@
 package com.rabhareit.tailing.mapper;
 
 import com.rabhareit.tailing.entity.TailingSocialAccount;
-import com.rabhareit.tailing.service.TailingSocialUserDetails;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

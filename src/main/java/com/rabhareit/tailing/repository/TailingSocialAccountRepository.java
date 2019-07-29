@@ -2,7 +2,6 @@ package com.rabhareit.tailing.repository;
 
 import com.rabhareit.tailing.entity.TailingSocialAccount;
 import com.rabhareit.tailing.mapper.TailingSocialAccountRowMapper;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

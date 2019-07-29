@@ -16,7 +16,7 @@ import java.util.Optional;
 
 /**
  * Social ログイン時の userDetailService として利用
- * TODO JdbcTemplateを使った実装
+ *
  */
 
 @Service

@@ -9,7 +9,7 @@ import java.io.IOException;
 
 @SpringBootApplication
 public class TailingApplication extends SpringBootServletInitializer {
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
     SpringApplication.run(TailingApplication.class, args);
   }
 

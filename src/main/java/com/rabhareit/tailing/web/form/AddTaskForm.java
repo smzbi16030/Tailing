@@ -1,7 +1,5 @@
 package com.rabhareit.tailing.web.form;
 
-//import java.util.Date;
-
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
