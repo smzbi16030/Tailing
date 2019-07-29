@@ -95,7 +95,7 @@ public class AdminController {
             public void onTrackLimitationNotice(int i) {
                 // MEMO 制限通知 (limit)
                 // MEMO 速度制限の上限を超えたために取得できなかったツイートが存在する
-                // TODO リアルタイム性が重視なのでツイートしなくてもいいかもしれないが、エラーが継続してたら知らせる仕組みを作る
+                // TODO リアルタイム性が重視なのでツイートしなくてもいいかもしれないがエラーが継続してたら知らせる仕組みを作る
                 System.out.println("!-----[onTrackLimitationNotice]-----");
             }
 
