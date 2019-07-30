@@ -7,7 +7,7 @@ import com.rabhareit.tailing.repository.TailingSocialAccountRepository;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UserProfile;
@@ -29,7 +29,6 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
     * -> username = userid(@~~~)
     * */
 
-
   @Value("${app.tailing-consumer-key}")
   private String tailingConsumerKey;
 
@@ -43,42 +42,41 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
   private String tailingAccessTokenSecret;
 
   @Autowired
-    TailingAccountRepository repository;
+  TailingAccountRepository repository;
 
-    @Autowired
-    TailingSocialAccountRepository socialRepository;
+  @Autowired
+  TailingSocialAccountRepository socialRepository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+  BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    @Override
-    public String execute(Connection<?> connection) {
-      UserProfile profile = connection.fetchUserProfile();
-      String username = profile.getUsername();
-      try{
-        long userid = getTwitterId(username);
-        System.out.println("パスワード決めてもらう");
-        String pw = RandomStringUtils.randomAlphanumeric(10);
-        System.out.println(pw);
-        TailingAccount account = new TailingAccount(username, passwordEncoder.encode(pw),false);
-        TailingSocialAccount socialAccount = new TailingSocialAccount(userid,userid,username,profile.getName(),passwordEncoder.encode(pw),false);
-        repository.insertAccount(account);
-        socialRepository.insertAccount(socialAccount);
-      } catch (TwitterException e) {
-        e.printStackTrace();
-      }
-      return username;
+  @Override
+  public String execute(Connection<?> connection) {
+    UserProfile profile = connection.fetchUserProfile();
+    String username = profile.getUsername();
+    try{
+      long userid = getTwitterId(username);
+      System.out.println("パスワード決めてもらう");
+      String pw = RandomStringUtils.randomAlphanumeric(10);
+      System.out.println(pw);
+      TailingAccount account = new TailingAccount(username, passwordEncoder.encode(pw),false);
+      TailingSocialAccount socialAccount = new TailingSocialAccount(userid,userid,username,profile.getName(),passwordEncoder.encode(pw),false);
+      repository.insertAccount(account);
+      socialRepository.insertAccount(socialAccount);
+    } catch (TwitterException e) {
+      e.printStackTrace();
     }
+    return username;
+  }
 
-    long getTwitterId(String username) throws TwitterException {
-      Configuration configuration = new ConfigurationBuilder()
-          .setOAuthConsumerKey(tailingConsumerKey)
-          .setOAuthConsumerSecret(tailingConsumerSecret)
-          .setOAuthAccessToken(tailingAccessToken)
-          .setOAuthAccessTokenSecret(tailingAccessTokenSecret)
-          .build();
-      Twitter twitter = new TwitterFactory(configuration).getInstance();
-      User user = twitter.showUser(username);
-      return user.getId();
-    }
+  long getTwitterId(String username) throws TwitterException {
+    Configuration configuration = new ConfigurationBuilder()
+      .setOAuthConsumerKey(tailingConsumerKey)
+      .setOAuthConsumerSecret(tailingConsumerSecret)
+      .setOAuthAccessToken(tailingAccessToken)
+      .setOAuthAccessTokenSecret(tailingAccessTokenSecret)
+      .build();
+    Twitter twitter = new TwitterFactory(configuration).getInstance();
+    User user = twitter.showUser(username);
+    return user.getId();
+  }
 }
