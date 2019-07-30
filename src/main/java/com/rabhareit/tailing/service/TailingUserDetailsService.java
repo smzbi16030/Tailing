@@ -56,14 +56,4 @@ public class TailingUserDetailsService implements UserDetailsService {
     }
 
   }
-
-  @Transactional
-  public void registerAdmin(String username, String password) {
-    jdbc.update("insert into temporary_account values (?,?,?,?)",username,passwordEncoder.encode(password),true,true);
-  }
-
-  @Transactional
-  public void registerUser(String username, String password) {
-    jdbc.update("insert into temporary_account values (?,?,?,?)",username,passwordEncoder.encode(password),true,false);
-  }
 }
