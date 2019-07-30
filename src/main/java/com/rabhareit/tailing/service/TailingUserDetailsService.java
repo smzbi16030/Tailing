@@ -9,7 +9,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +29,7 @@ public class TailingUserDetailsService implements UserDetailsService {
   @Autowired
   TailingAccountRepository repository;
 
-  @Autowired
-  private PasswordEncoder passwordEncoder;
+  BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
