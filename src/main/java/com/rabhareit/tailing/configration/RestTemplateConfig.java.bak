@@ -29,8 +29,8 @@ public class RestTemplateConfig {
   public RestTemplate restTemplate() {
     return new RestTemplateBuilder()
         .requestFactory(this::clientHttpRequestFactory)
-        //.errorHandler(new CustomClientErrorHandler())
-        //.interceptors(new CustomClientHttpRequestInterceptor())
+        .errorHandler(new CustomClientErrorHandler())
+        .interceptors(new CustomClientHttpRequestInterceptor())
         .build();
   }
 }
