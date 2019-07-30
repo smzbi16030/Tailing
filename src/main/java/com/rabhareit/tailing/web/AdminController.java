@@ -78,19 +78,19 @@ public class AdminController {
                     }
                 }
                 else {
-                    // 確認用
-
-                    System.out.println("id = " + status.getId() + ", screenName = " + target + ", text = " + status.getText());
-                    System.out.println(" -> tweet to @" + target);
-
                     try {
-                        StringBuffer buffer = new StringBuffer();
-                        List<Map<String,Object>> allTask = jdbc.queryForList("select * from task_model where ownerid = ?",target);
-                        if(allTask.size() == 0) {
-                            return;
-                        }
-                        allTask.stream().forEach( (task) -> buffer.append(task.get("title") + " : " + task.get("deadline") + "まで" + System.lineSeparator()) );
-                        twitter.updateStatus("@" + target + System.lineSeparator() + buffer.toString());
+                      StringBuffer buffer = new StringBuffer();
+                      List<Map<String,Object>> allTask = jdbc.queryForList("select * from task_model where ownerid = ?",target);
+
+                      if(allTask.size() == 0) {
+                        return;
+                      }
+
+                      allTask.stream().forEach( (task) -> buffer.append(task.get("title") + " : " + task.get("deadline") + "まで" + System.lineSeparator()) );
+                      twitter.updateStatus("@" + target + System.lineSeparator() + buffer.toString());
+
+                      System.out.println("id = " + status.getId() + ", screenName = " + target + ", text = " + status.getText());
+                      System.out.println(" -> tweet to @" + target);
                     } catch(NullPointerException npe) {
                         npe.printStackTrace();
                     } catch(TwitterException te) {
