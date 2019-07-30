@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
@@ -35,7 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
           .antMatchers("css/**","js/**","/favicon.ico").permitAll()
-          .antMatchers("/config").hasRole("ROLE_ADMIN")
+          .antMatchers("/config").hasRole("ADMIN")
           .anyRequest().authenticated()
         .and()
           .formLogin()
@@ -62,7 +63,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Autowired
   void configureAuthenticationManager(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailsService)
-        .passwordEncoder(new BCryptPasswordEncoder());
+        .passwordEncoder(passwordEncoder());
+  }
+
+  @Bean
+  PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 
   @Bean

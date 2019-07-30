@@ -8,6 +8,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UserProfile;
@@ -47,7 +48,8 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
   @Autowired
   TailingSocialAccountRepository socialRepository;
 
-  BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+  @Autowired
+  PasswordEncoder passwordEncoder;
 
   @Override
   public String execute(Connection<?> connection) {
