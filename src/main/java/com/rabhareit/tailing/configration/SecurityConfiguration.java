@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
@@ -54,18 +53,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .permitAll()
             .deleteCookies("JSESSIONID")
         .and()
-          .apply(springSocialConfigurer().postLoginUrl("/home")
-                                         .connectionAddedRedirectUrl("/home")
-                                         .defaultFailureUrl("/signin?param.error=bad_credentials")
-                                         .alwaysUsePostLoginUrl(true)
-          );
-
+          .apply(new SpringSocialConfigurer().postLoginUrl("/home")
+            .connectionAddedRedirectUrl("/home")
+            .defaultFailureUrl("/signin?param.error=bad_credentials")
+            .alwaysUsePostLoginUrl(true));
   }
 
   @Autowired
   void configureAuthenticationManager(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailsService)
-        .passwordEncoder(passwordEncoder());
+        .passwordEncoder(new BCryptPasswordEncoder());
   }
 
   @Bean
@@ -80,17 +77,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       }
     };
   }
-
-  @Bean
-  PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
-
-  @Bean
-  SpringSocialConfigurer springSocialConfigurer() {
-    return new SpringSocialConfigurer();
-  }
-
-
 }
 
