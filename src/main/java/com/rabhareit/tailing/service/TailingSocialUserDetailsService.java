@@ -32,7 +32,6 @@ public class TailingSocialUserDetailsService implements SocialUserDetailsService
       throw new UsernameNotFoundException("Username is empty");
     }
 
-    System.out.println("["+username+"]:TailingSocialUserDetailsService.java:46");
     TailingSocialAccount account = Optional.ofNullable(repository.getAccoutByUsername(username))
         .orElseThrow( () -> new UsernameNotFoundException("User: " + username + " does not exist."));
 

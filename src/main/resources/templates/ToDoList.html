@@ -24,19 +24,9 @@
   <!-- css  -->
   <link rel="stylesheet" type="text/css" media="screen" href="/css/ToDoList.css">
   <link rel="stylesheet" href="/css/ToDoRegist.css">
-  <!-- 確認用 -->
-  <link rel="stylesheet" type="text/css" href="../static/css/ToDoRegist.css">
-  <link rel="stylesheet" type="text/css" href="../static/css/inputStyle.css">
-  <link rel="stylesheet" type="text/css" href="../static/css/titleTweak.css">
-  <link rel="stylesheet" type="text/css" href="../static/css/ToDoList.css">
-  <link rel="stylesheet" type="text/css" href="../static/css/FormComponentDesign.css">
-  <link rel="stylesheet" type="text/css" href="../static/css/bootstrap-datepicker/bootstrap-datepicker.min.css">
   <!--- css files --->
-
 </head>
-
 <body>
-<!-- Minimize the use of bootstrap -->
 <nav class="navbar navbar-dark bg-dark">
   <a class="navbar-brand" href="/home">Tail</a>
   <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,7 +55,7 @@
 <div class="sideBar">
   <div class="profile">
     <!-- Insert Twitter header image here. -->
-    <img th:src="${profileurl}" alt="ツイッターバナー画像">
+    <img th:src="/image/sampleHeader.png" alt="ツイッターバナー画像">
     <div class="icon">
       <img th:src="${imageurl}" alt="アイコン">
     </div>
