@@ -86,6 +86,9 @@ public class AdminController {
                     try {
                         StringBuffer buffer = new StringBuffer();
                         List<Map<String,Object>> allTask = jdbc.queryForList("select * from task_model where ownerid = ?",target);
+                        if(allTask.size() == 0) {
+                            return;
+                        }
                         allTask.stream().forEach( (task) -> buffer.append(task.get("title") + " : " + task.get("deadline") + "まで" + System.lineSeparator()) );
                         twitter.updateStatus("@" + target + System.lineSeparator() + buffer.toString());
                     } catch(NullPointerException npe) {
@@ -103,6 +106,7 @@ public class AdminController {
                 // MEMO ツイート主が削除したツイートは自分のデータベースからも削除しなければならない。
                 // TODO ユーザーが消し去ったツイートがDBに残ってないことを明示できたら
                 System.out.println("!-----[onDeletionNotice]-----");
+                System.out.println("@"+statusDeletionNotice.getUserId() + ":" + statusDeletionNotice.getStatusId());
             }
 
             @Override
