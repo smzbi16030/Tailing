@@ -66,10 +66,10 @@ public class AdminController {
                       StringBuffer buffer = new StringBuffer();
                       List<Map<String, Object>> allArc = jdbc.queryForList("select * from completed_task_model where ownerid = ?", target);
                       allArc.stream().forEach( (task) -> buffer.append(task.get("title") + System.lineSeparator()) );
-                      twitter.updateStatus("アーカイブですネ" + System.lineSeparator() + "ゴ確認くダさい" + System.lineSeparator() + buffer.toString());
+                      twitter.updateStatus("@" + target + System.lineSeparator() + "アーカイブでスか？" + System.lineSeparator() + "ご確認クださイ" + System.lineSeparator() + buffer.toString());
                     } catch(NullPointerException nul) {
                       try{
-                        twitter.updateStatus("完了済みのタスクはございませんガ…");
+                        twitter.updateStatus("完了済ミのタスクはござイませんが…");
                       } catch (TwitterException te) {
                         te.printStackTrace();
                       }
