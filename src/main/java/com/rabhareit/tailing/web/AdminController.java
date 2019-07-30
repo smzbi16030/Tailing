@@ -56,12 +56,30 @@ public class AdminController {
 
             @Override
             public void onStatus(Status status) {
+                String target = status.getUser().getScreenName();
+
                 if (status.getText().startsWith("RT")) {
                     // MEMO リツイートは表示しない
                     return;
-                } else {
+                } else if(status.getText().contains("アーカイブ") && status.getText().contains("tailing")) {
+                    try {
+                      StringBuffer buffer = new StringBuffer();
+                      List<Map<String, Object>> allArc = jdbc.queryForList("select * from completed_task_model where ownerid = ?", target);
+                      allArc.stream().forEach( (task) -> buffer.append(task.get("title") + System.lineSeparator()) );
+                      twitter.updateStatus("アーカイブですネ" + System.lineSeparator() + "ゴ確認くダさい" + System.lineSeparator() + buffer.toString());
+                    } catch(NullPointerException nul) {
+                      try{
+                        twitter.updateStatus("完了済みのタスクはございませんガ…");
+                      } catch (TwitterException te) {
+                        te.printStackTrace();
+                      }
+                    } catch (TwitterException te) {
+                      te.printStackTrace();
+                    }
+                }
+                else {
                     // 確認用
-                    String target = status.getUser().getScreenName();
+
                     System.out.println("id = " + status.getId() + ", screenName = " + target + ", text = " + status.getText());
                     System.out.println(" -> tweet to @" + target);
 
