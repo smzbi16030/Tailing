@@ -1,7 +1,9 @@
 package com.rabhareit.tailing.web;
 
+import com.rabhareit.tailing.configration.ApacheHttpClientConfig;
 import com.rabhareit.tailing.repository.TailingSocialAccountRepository;
 import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -148,7 +150,7 @@ public class AdminController {
         filter.follow(ArrayUtils.toPrimitive(socialAccountRepository.getUserIdArray()));
         twStream.filter(filter);
 
-        return "adConfig";
+        return "redirect:/home";
     }
 
 }
