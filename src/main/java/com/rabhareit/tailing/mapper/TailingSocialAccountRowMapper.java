@@ -18,6 +18,8 @@ public class TailingSocialAccountRowMapper implements RowMapper<TailingSocialAcc
     account.setPasswd(resultSet.getString("encoded_passwd"));
     account.setEnabled(resultSet.getBoolean("enabled"));
     account.setAdmin(resultSet.getBoolean("is_admin"));
+    account.setImgUrl(resultSet.getString("img_url"));
+    account.setBannerUrl(resultSet.getString("banner_url"));
     return account;
   }
 }

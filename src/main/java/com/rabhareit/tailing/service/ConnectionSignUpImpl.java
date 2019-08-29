@@ -7,7 +7,6 @@ import com.rabhareit.tailing.repository.TailingSocialAccountRepository;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
@@ -20,6 +19,32 @@ import twitter4j.TwitterFactory;
 import twitter4j.User;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
+
+class TailingSocialUserInfo {
+  long userid;
+
+  String imgUrl;
+
+  String bannerUrl;
+
+  public long getUserid() { return userid; }
+
+  public void setUserid(long userid) { this.userid = userid; }
+
+  public String getImgUrl() { return imgUrl; }
+
+  public void setImgUrl(String imgUrl) { this.imgUrl = imgUrl; }
+
+  public String getBannerUrl() { return bannerUrl; }
+
+  public void setBannerUrl(String bannerUrl) { this.bannerUrl = bannerUrl; }
+
+  TailingSocialUserInfo(long userid, String imgUrl, String bannerUrl) {
+    this.userid = userid;
+    this.imgUrl = imgUrl;
+    this.bannerUrl = bannerUrl;
+  }
+}
 
 @Component
 @Transactional
@@ -56,12 +81,13 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
     UserProfile profile = connection.fetchUserProfile();
     String username = profile.getUsername();
     try{
-      long userid = getTwitterId(username);
       System.out.println("パスワード決めてもらう");
       String pw = RandomStringUtils.randomAlphanumeric(10);
       System.out.println(pw);
       TailingAccount account = new TailingAccount(username, passwordEncoder.encode(pw),false);
-      TailingSocialAccount socialAccount = new TailingSocialAccount(userid,userid,username,profile.getName(),passwordEncoder.encode(pw),false);
+
+      TailingSocialUserInfo userinfo = getTwitterInfo(username);
+      TailingSocialAccount socialAccount = new TailingSocialAccount(userinfo.getUserid(),userinfo.getUserid(),username,profile.getName(),passwordEncoder.encode(pw),false,userinfo.getImgUrl(),userinfo.getBannerUrl());
       repository.insertAccount(account);
       socialRepository.insertAccount(socialAccount);
     } catch (TwitterException e) {
@@ -70,7 +96,7 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
     return username;
   }
 
-  long getTwitterId(String username) throws TwitterException {
+  TailingSocialUserInfo getTwitterInfo(String username) throws TwitterException {
     Configuration configuration = new ConfigurationBuilder()
       .setOAuthConsumerKey(tailingConsumerKey)
       .setOAuthConsumerSecret(tailingConsumerSecret)
@@ -79,6 +105,9 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
       .build();
     Twitter twitter = new TwitterFactory(configuration).getInstance();
     User user = twitter.showUser(username);
-    return user.getId();
+    long userid= user.getId();
+    String imgUrl = user.getProfileImageURL();
+    String bannerUrl = user.getProfileBannerURL();
+    return new TailingSocialUserInfo(userid, imgUrl, bannerUrl);
   }
 }
