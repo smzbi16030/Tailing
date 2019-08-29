@@ -1,5 +1,7 @@
 package com.rabhareit.tailing.web;
 
+import com.rabhareit.tailing.entity.TailingSocialAccount;
+import com.rabhareit.tailing.repository.TailingSocialAccountRepository;
 import com.rabhareit.tailing.service.TailingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -29,6 +31,8 @@ public class FrontController {
   @Autowired
   private JdbcTemplate jdbc;
 
+  private TailingSocialAccountRepository repo;
+
   @RequestMapping("/")
   public String accessTop() {
     return "top";
@@ -53,19 +57,23 @@ public class FrontController {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String username = auth.getName();
     try {
-      List<Map<String, Object>> images = jdbc.queryForList("select imageurl,profileurl from userconnection where userid = ?",username);
-      String imageurl = "null";
-      imageurl = (String) images.get(0).get("imageurl");
+
+      //smells terrible.
+      TailingSocialAccount target = repo.getAccoutByUsername(username);
+      String imageurl = target.getImgUrl();
+      String bannerurl = target.getBannerUrl();
       List<Map<String, Object>> taskList = jdbc.queryForList("select * from task_model where ownerid = ?",username);
       if (taskList.isEmpty()) {
         mav.addObject("loginId",username);
         mav.addObject("imageurl",imageurl);
+        mav.addObject("bannerurl",bannerurl);
         mav.addObject("taskList", taskList);
         mav.addObject("noTaskFlag", true);
         mav.addObject("formModel", (new AddTaskForm()));
       } else {
         mav.addObject("loginId",username);
         mav.addObject("imageurl",imageurl);
+        mav.addObject("bannerurl",bannerurl);
         mav.addObject("taskList", taskList);
         mav.addObject("noTaskFlag", false);
         mav.addObject("formModel", (new AddTaskForm()) );
