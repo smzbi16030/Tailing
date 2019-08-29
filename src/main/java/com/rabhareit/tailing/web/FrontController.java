@@ -31,7 +31,8 @@ public class FrontController {
   @Autowired
   private JdbcTemplate jdbc;
 
-  private TailingSocialAccountRepository repo;
+  @Autowired
+  private TailingSocialAccountRepository accountRepository;
 
   @RequestMapping("/")
   public String accessTop() {
@@ -53,13 +54,10 @@ public class FrontController {
   @RequestMapping("/home")
   ModelAndView accessList(ModelAndView mav) {
     mav.setViewName("ToDoList");
-
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String username = auth.getName();
+    TailingSocialAccount target = accountRepository.getAccoutByUsername(username);
     try {
-
-      //smells terrible.
-      TailingSocialAccount target = repo.getAccoutByUsername(username);
       String imageurl = target.getImgUrl();
       String bannerurl = target.getBannerUrl();
       List<Map<String, Object>> taskList = jdbc.queryForList("select * from task_model where ownerid = ?",username);
@@ -68,15 +66,15 @@ public class FrontController {
         mav.addObject("imageurl",imageurl);
         mav.addObject("bannerurl",bannerurl);
         mav.addObject("taskList", taskList);
+        mav.addObject("formModel", new AddTaskForm() );
         mav.addObject("noTaskFlag", true);
-        mav.addObject("formModel", (new AddTaskForm()));
       } else {
         mav.addObject("loginId",username);
         mav.addObject("imageurl",imageurl);
         mav.addObject("bannerurl",bannerurl);
         mav.addObject("taskList", taskList);
+        mav.addObject("formModel", new AddTaskForm() );
         mav.addObject("noTaskFlag", false);
-        mav.addObject("formModel", (new AddTaskForm()) );
       }
     } catch (IndexOutOfBoundsException iob) {
       iob.printStackTrace();
