@@ -85,7 +85,7 @@ public class AdminController {
                     }
                 }
                 else {
-                  TimelineMonitor monitor = new TimelineMonitor(jdbc);
+                  TimelineMonitor monitor = new TimelineMonitor();
                   int count = counter.sayCount(target);
                   if (count == 0) {
                     //10分後に初期化

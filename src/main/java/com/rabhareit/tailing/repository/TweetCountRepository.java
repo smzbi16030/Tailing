@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class TweetCountRepository {
+
   @Autowired
   JdbcTemplate jdbc;
 
