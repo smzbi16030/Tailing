@@ -1,9 +1,9 @@
 package com.rabhareit.tailing.web;
 
-import com.rabhareit.tailing.configration.ApacheHttpClientConfig;
 import com.rabhareit.tailing.repository.TailingSocialAccountRepository;
+import com.rabhareit.tailing.repository.TweetCountRepository;
+import com.rabhareit.tailing.service.TimelineMonitor;
 import org.apache.commons.lang3.ArrayUtils;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -38,6 +38,9 @@ public class AdminController {
     @Autowired
     TailingSocialAccountRepository socialAccountRepository;
 
+    @Autowired
+    TweetCountRepository counter;
+
     @RequestMapping("/stream/stop")
     public String streamStop() {
         return "";
@@ -58,9 +61,11 @@ public class AdminController {
 
             @Override
             public void onStatus(Status status) {
-                String target = status.getUser().getScreenName();
+              String target = status.getUser().getScreenName();
 
-                if (status.getText().startsWith("RT")) {
+              System.out.println("id = " + status.getId() + ", screenName = " + target + ", text = " + status.getText());
+
+              if (status.getText().startsWith("RT")) {
                     // MEMO リツイートは表示しない
                     return;
                 } else if(status.getText().contains("アーカイブ") && status.getText().contains("tailing")) {
@@ -80,24 +85,37 @@ public class AdminController {
                     }
                 }
                 else {
+                  TimelineMonitor monitor = new TimelineMonitor(jdbc);
+                  int count = counter.sayCount(target);
+                  if (count == 0) {
+                    //10分後に初期化
+                    monitor.start(target);
+                    counter.count(target);
+                    return;
+                  } else if (count == 9) {
                     try {
                       StringBuffer buffer = new StringBuffer();
                       List<Map<String,Object>> allTask = jdbc.queryForList("select * from task_model where ownerid = ?",target);
 
+                      //タスクが登録されていない場合
                       if(allTask.size() == 0) {
                         return;
                       }
 
                       allTask.stream().forEach( (task) -> buffer.append(task.get("title") + " : " + task.get("deadline") + "まで" + System.lineSeparator()) );
                       twitter.updateStatus("@" + target + System.lineSeparator() + buffer.toString());
-
-                      System.out.println("id = " + status.getId() + ", screenName = " + target + ", text = " + status.getText());
-                      System.out.println(" -> tweet to @" + target);
                     } catch(NullPointerException npe) {
-                        npe.printStackTrace();
+                      npe.printStackTrace();
                     } catch(TwitterException te) {
-                        te.printStackTrace();
+                      te.printStackTrace();
                     }
+                    counter.reset(target);
+                    monitor.restart(target);
+                  } else if (count > 0 && count < 9) {
+                    counter.count(target);
+                    System.out.println(target + " : count++");
+                    return;
+                  }
                 }
             }
 

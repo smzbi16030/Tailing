@@ -2,6 +2,7 @@ package com.rabhareit.tailing.web;
 
 import com.rabhareit.tailing.entity.TailingSocialAccount;
 import com.rabhareit.tailing.repository.TailingSocialAccountRepository;
+import com.rabhareit.tailing.repository.TaskModelRepository;
 import com.rabhareit.tailing.service.TailingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,6 +10,7 @@ import org.springframework.security.core.Authentication;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,24 +21,23 @@ import com.rabhareit.tailing.web.form.AddTaskForm;
 import java.util.List;
 import java.util.Map;
 
-/**
- * もう少し機能別に別けれたら。
- */
-
 @Controller
 public class FrontController {
 
-  TailingUtil tutil = new TailingUtil();
+  TailingUtil util = new TailingUtil();
 
   @Autowired
-  private JdbcTemplate jdbc;
+  JdbcTemplate jdbc;
 
   @Autowired
   private TailingSocialAccountRepository accountRepository;
 
+  @Autowired
+  private TaskModelRepository taskrepo;
+
   @RequestMapping("/")
   public String accessTop() {
-    return "top";
+    return "redirect:/home";
   }
 
   @RequestMapping("/index")
@@ -52,7 +53,7 @@ public class FrontController {
   }
 
   @RequestMapping("/home")
-  ModelAndView accessList(ModelAndView mav) {
+  ModelAndView accessList(@ModelAttribute("formModel") AddTaskForm taskForm, ModelAndView mav) {
     mav.setViewName("ToDoList");
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String username = auth.getName();
@@ -60,20 +61,18 @@ public class FrontController {
     try {
       String imageurl = target.getImgUrl();
       String bannerurl = target.getBannerUrl();
-      List<Map<String, Object>> taskList = jdbc.queryForList("select * from task_model where ownerid = ?",username);
+      List<Map<String, Object>> taskList = taskrepo.getAllTaskMap(username);
       if (taskList.isEmpty()) {
-        mav.addObject("loginId",username);
+        mav.addObject("ownerId",username);
         mav.addObject("imageurl",imageurl);
         mav.addObject("bannerurl",bannerurl);
         mav.addObject("taskList", taskList);
-        mav.addObject("formModel", new AddTaskForm() );
         mav.addObject("noTaskFlag", true);
       } else {
-        mav.addObject("loginId",username);
+        mav.addObject("ownerId",username);
         mav.addObject("imageurl",imageurl);
         mav.addObject("bannerurl",bannerurl);
         mav.addObject("taskList", taskList);
-        mav.addObject("formModel", new AddTaskForm() );
         mav.addObject("noTaskFlag", false);
       }
     } catch (IndexOutOfBoundsException iob) {
@@ -98,21 +97,27 @@ public class FrontController {
                     @RequestParam(name="ownerId", required=true)String ownerId)
   {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    jdbc.update("insert into task_model(title, deadline, memo, ownerid) values (?,?,?,?)",title,tutil.string2SqlDate(deadline),memo,auth.getName());
+    String username = auth.getName();
+    System.out.println(ownerId);
+    taskrepo.addNewTask(title, util.string2SqlDate(deadline),memo,username);
     return "redirect:/home";
   }
 
   @PostMapping("/deltask")
   String deleteTask(@RequestParam(name="delId",required=true)String id, ModelAndView mav) {
-    jdbc.update("delete from task_model where id = ?",Long.parseLong(id));
+    taskrepo.deleteTask(Long.parseLong(id));
     return "redirect:/home";
   }
 
   @PostMapping("/completedtask")
   String archiveTask(@RequestParam(name="completeId",required=true)String id, ModelAndView mav) {
-    List<Map<String, Object>> archiveTask = jdbc.queryForList("select * from task_model where id = " + id);
-    jdbc.update("insert into completed_task_model values(?,current_date,?,?,?,?)", archiveTask.get(0).get("id"), archiveTask.get(0).get("title"), archiveTask.get(0).get("deadline"), archiveTask.get(0).get("memo"), archiveTask.get(0).get("ownerId"));
-    jdbc.update("delete from task_model where id = " + Long.parseLong(id));
+    taskrepo.archiveTask(Long.parseLong(id));
     return "redirect:/home";
+  }
+
+  @RequestMapping("/maintenance")
+  ModelAndView mente(ModelAndView mav) {
+    mav.setViewName("maintenance");
+    return mav;
   }
 }

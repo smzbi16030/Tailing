@@ -69,7 +69,8 @@
           <form class="addTask" th:action="@{addTask}" method="post" th:object="${formModel}" name="formModel">
               <div class="modal-header">
                 <div class="textbox titlebox">
-                  <input type="hidden" name="userid" th:field="*{ownerId}" th:value="${loginId}">
+                  <!-- TODO 変数の名前を統一する -->
+                  <input type="hidden" name="userid" th:field="*{ownerId}" th:value="*{ownerId}">
                   <input id="email" required="" type="text" th:field="*{title}"><label for="email">タイトル</label>
                   <div class="error">タイトルを入力してください</div>
                 </div>
