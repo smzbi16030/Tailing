@@ -10,9 +10,9 @@ public class TweetCountRepository {
   @Autowired
   JdbcTemplate jdbc;
 
-  public int sayCount(String target) {
-    return jdbc.queryForObject("select count from tweetcount where username = ?", Integer.class, target);
-  }
+  public void setCountor(long id, String username, int count) { jdbc.update("insert into tweetcount values (?,?,?)", id, username, count); }
+
+  public int sayCount(String target) { return jdbc.queryForObject("select count from tweetcount where username = ?", Integer.class, target); }
 
   public void count(String target){
     jdbc.update("update tweetcount set count = count+1 where username = ?", target);

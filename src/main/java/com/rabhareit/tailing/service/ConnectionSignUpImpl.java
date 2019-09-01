@@ -4,6 +4,7 @@ import com.rabhareit.tailing.entity.TailingAccount;
 import com.rabhareit.tailing.entity.TailingSocialAccount;
 import com.rabhareit.tailing.repository.TailingAccountRepository;
 import com.rabhareit.tailing.repository.TailingSocialAccountRepository;
+import com.rabhareit.tailing.repository.TweetCountRepository;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,7 +51,7 @@ class TailingSocialUserInfo {
 @Transactional
 public class ConnectionSignUpImpl implements ConnectionSignUp {
     /*
-    * Socialログイン時のユーザー追加(自システムのDBに)
+    * Socialログイン時のユーザー追加(自システムのDBに) する必要はあるか？
     * user id(@~~~)でログインしてもらう.
     * -> username = userid(@~~~)
     * */
@@ -74,6 +75,9 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
   TailingSocialAccountRepository socialRepository;
 
   @Autowired
+  TweetCountRepository tweetcount;
+
+  @Autowired
   PasswordEncoder passwordEncoder;
 
   @Override
@@ -84,12 +88,14 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
       System.out.println("パスワード決めてもらう");
       String pw = RandomStringUtils.randomAlphanumeric(10);
       System.out.println(pw);
-      TailingAccount account = new TailingAccount(username, passwordEncoder.encode(pw),false);
 
       TailingSocialUserInfo userinfo = getTwitterInfo(username);
       TailingSocialAccount socialAccount = new TailingSocialAccount(userinfo.getUserid(),userinfo.getUserid(),username,profile.getName(),passwordEncoder.encode(pw),false,userinfo.getImgUrl(),userinfo.getBannerUrl());
-      repository.insertAccount(account);
       socialRepository.insertAccount(socialAccount);
+
+      //tweetcountテーブルにセット
+      setCountor(socialAccount);
+
     } catch (TwitterException e) {
       e.printStackTrace();
     }
@@ -110,4 +116,9 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
     String bannerUrl = user.getProfileBannerURL();
     return new TailingSocialUserInfo(userid, imgUrl, bannerUrl);
   }
+
+  void setCountor(TailingSocialAccount account) {
+    tweetcount.setCountor(account.getTwitterId(), account.getUserName(),0);
+  }
+
 }
