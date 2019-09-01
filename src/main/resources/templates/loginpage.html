@@ -5,7 +5,7 @@
     <title>ログイン</title>
     <link rel="stylesheet" href="/css/common.css">
     <!-- External css for fontawesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
     <!-- External css for bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
@@ -20,7 +20,9 @@
   </form>
 
   <a class="button-common" th:href="@{/auth/twitter}">
-      <i class="fab fa-twitter" style="color:#FFFFFF;"></i>Twitterでログイン
+    <button class="btn" style="background-color:#00acee; color:#ffffff;">
+      <i class="fab fa-twitter" style="color:#ffffff;"></i> Twitterでログイン
+    </button>
   </a>
 
   <!-- External script for bootstrap -->
