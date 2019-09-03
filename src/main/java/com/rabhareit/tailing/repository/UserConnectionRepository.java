@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
@@ -22,7 +21,7 @@ public class UserConnectionRepository {
   public void insertConnection() { }
 
   public void insertBannerUrl(String bannerurl) {
-    jdbc.update("insert into userconnection(bannerurl) values(?)",bannerurl);
+    jdbc.update("update userconnection set bannerurl = ?",bannerurl);
   }
 
   public UserConnection getConnectionById(String userid) {
