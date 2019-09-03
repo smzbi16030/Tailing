@@ -11,9 +11,9 @@ public class AuthenticationResource {
   AuthenticationManager authenticationManager;
 
   @RequestMapping(method=RequestMethod.GET)
-  public TailingSocialUserDetails session(Principal user) throws TwitterException {
+  public UserConnectionDetails session(Principal user) throws TwitterException {
     String name = user ==  null ? null : user.getName();
-    return new TailingSocialUserDetails(name);
+    return new UserConnectionDetails(name);
   }
 
   @RequestMapping(method=RequestMethod.DELETE)

@@ -1,9 +1,9 @@
 package com.rabhareit.tailing.web;
 
-import com.rabhareit.tailing.entity.TailingSocialAccount;
 import com.rabhareit.tailing.entity.TaskModel;
-import com.rabhareit.tailing.repository.TailingSocialAccountRepository;
+import com.rabhareit.tailing.entity.UserConnection;
 import com.rabhareit.tailing.repository.TaskModelRepository;
+import com.rabhareit.tailing.repository.UserConnectionRepository;
 import com.rabhareit.tailing.service.TailingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -31,7 +31,7 @@ public class FrontController {
   JdbcTemplate jdbc;
 
   @Autowired
-  private TailingSocialAccountRepository accountRepository;
+  private UserConnectionRepository connection;
 
   @Autowired
   private TaskModelRepository taskrepo;
@@ -58,10 +58,10 @@ public class FrontController {
     mav.setViewName("ToDoList");
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String username = auth.getName();
-    TailingSocialAccount target = accountRepository.getAccoutByUsername(username);
+    UserConnection target = connection.getConnectionById(username);
     try {
-      String imageurl = target.getImgUrl();
-      String bannerurl = target.getBannerUrl();
+      String imageurl = target.getImageurl();
+      String bannerurl = target.getBannerurl();
       List<Map<String, Object>> taskList = taskrepo.getAllTaskMap(username);
       if (taskList.isEmpty()) {
         mav.addObject("ownerId",username);

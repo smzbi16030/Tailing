@@ -18467,7 +18467,7 @@ Abstract Classes:
 
 Concrete Classes:
     com.rabhareit.tailing.mapper.TailingAccountRowMapper
-    com.rabhareit.tailing.mapper.TailingSocialAccountRowMapper
+    com.rabhareit.tailing.mapper.UserConnectionRowMapper
 
 Depends Upon:
     com.rabhareit.tailing.entity
@@ -18533,7 +18533,7 @@ Abstract Classes:
 Concrete Classes:
     com.rabhareit.tailing.service.AuthenticationEventListener
     com.rabhareit.tailing.service.ConnectionSignUpImpl
-    com.rabhareit.tailing.service.TailingSocialUserDetails
+    com.rabhareit.tailing.service.UserConnectionDetails
     com.rabhareit.tailing.service.TailingUserDetails
 
 Depends Upon:

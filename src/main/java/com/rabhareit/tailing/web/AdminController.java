@@ -1,9 +1,8 @@
 package com.rabhareit.tailing.web;
 
-import com.rabhareit.tailing.repository.TailingSocialAccountRepository;
 import com.rabhareit.tailing.repository.TweetCountRepository;
+import com.rabhareit.tailing.repository.UserConnectionRepository;
 import com.rabhareit.tailing.service.TimelineMonitor;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,7 +35,7 @@ public class AdminController {
     private JdbcTemplate jdbc;
 
     @Autowired
-    TailingSocialAccountRepository socialAccountRepository;
+    UserConnectionRepository userConnection;
 
     @Autowired
     TweetCountRepository counter;
@@ -165,7 +164,7 @@ public class AdminController {
         // MEMO ストリームの開始
         twStream.addListener(listener);
         FilterQuery filter = new FilterQuery();
-        filter.follow(ArrayUtils.toPrimitive(socialAccountRepository.getUserIdArray()));
+        filter.follow(userConnection.getUserIdArray());
         twStream.filter(filter);
 
         return "redirect:/home";
