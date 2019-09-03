@@ -1,6 +1,7 @@
 package com.rabhareit.tailing.web;
 
 import com.rabhareit.tailing.entity.TailingSocialAccount;
+import com.rabhareit.tailing.entity.TaskModel;
 import com.rabhareit.tailing.repository.TailingSocialAccountRepository;
 import com.rabhareit.tailing.repository.TaskModelRepository;
 import com.rabhareit.tailing.service.TailingUtil;
@@ -112,6 +113,12 @@ public class FrontController {
   @PostMapping("/completedtask")
   String archiveTask(@RequestParam(name="completeId",required=true)String id, ModelAndView mav) {
     taskrepo.archiveTask(Long.parseLong(id));
+    return "redirect:/home";
+  }
+
+  @PostMapping("edit")
+  String editTask(@RequestParam(name="id",required=true)String id, @RequestParam(name="taskinfo",required=true)TaskModel model) {
+    taskrepo.updateTask(Long.parseLong(id), model);
     return "redirect:/home";
   }
 

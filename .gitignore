@@ -1,4 +1,6 @@
 HELP.md
+
+### Tailing ###
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 src/main/webapp/
@@ -8,6 +10,7 @@ src/main/webapp/
 application.properties
 *.json
 *.json.bak
+*.bak
 
 /remind/
 

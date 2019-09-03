@@ -38,8 +38,34 @@ public class TaskModelRepository {
     return jdbc.queryForObject("select * from task_model where id = ?",mapper,id);
   }
 
+  public void updateTask(long id, String title, Date limit, String memo) {
+    TaskModel model = getTask(id);
+    if(!title.equals(model.getTitle())) {
+      jdbc.update("update task_model set title = ? where id = ?",title,id);
+    }
+    if(!limit.equals(model.getLimit())) {
+      jdbc.update("update task_model set deadline = ? where id = ?",limit,id);
+    }
+    if(!memo.equals(model.getMemo())) {
+      jdbc.update("update task_model set memo = ? where id = ?", memo, id);
+    }
+  }
+
+  public void updateTask(long id, TaskModel model) {
+    TaskModel prev = getTask(id);
+    if(!model.getTitle().equals(prev.getTitle())) {
+      jdbc.update("update task_model set title = ? where id = ?", model.getTitle(),id);
+    }
+    if(!model.getLimit().equals(prev.getLimit())) {
+      jdbc.update("update task_model set deadline = ? where id = ?", model.getLimit(),id);
+    }
+    if(!model.getMemo().equals(prev.getMemo())) {
+      jdbc.update("update task_model set memo = ? where id = ?", model.getMemo(), id);
+    }
+  }
+
   public void deleteTask(long id) {
-    jdbc.update("delete * from task_model where id = ?", id);
+    jdbc.update("delete from task_model where id = ?", id);
   }
 
   public void archiveTask(long id) {

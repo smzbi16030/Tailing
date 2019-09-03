@@ -20,7 +20,7 @@
   <!-- css for FormComponentDesign -->
   <link rel="stylesheet" type="text/css" href="/css/FormComponentDesign.css">
   <!-- css for Bootstrap datepicker -->
-  <link rel="stylesheet" type="text/css" href="/css/bootstrap-datepicker/bootstrap-datepicker.min.css">
+  <!-- <link rel="stylesheet" type="text/css" href="/css/bootstrap-datepicker/bootstrap-datepicker.min.css"> -->
   <!-- css  -->
   <link rel="stylesheet" type="text/css" media="screen" href="/css/ToDoList.css">
   <link rel="stylesheet" href="/css/ToDoRegist.css">
@@ -62,9 +62,9 @@
   </div>
 
   <div class="addTask">
-    <button type="button" class="btn btn-primary addTaskBtn" data-toggle="modal" data-target="#exampleModalCentered"><i class="fas fa-plus"></i>　やることを追加</button>
+    <button type="button" class="btn addTaskBtn" data-toggle="modal" data-target="#exampleModalCentered"><i class="fas fa-plus"></i>　やることを追加</button>
     <div class="modal" id="exampleModalCentered" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-dialog" role="document">
         <div class="modal-content">
           <form class="addTask" th:action="@{addTask}" method="post" th:object="${formModel}" name="formModel">
               <div class="modal-header">
@@ -129,26 +129,24 @@
   <span th:unless="${noTaskFlag}">
       <h1>タスクリスト</h1>
       <div>
-        <table class="table table-hover">
+        <table class="table">
           <thead>
           <tr>
             <th>#</th>
             <th>タイトル</th>
             <th>期限</th>
             <th>メモ</th>
-            <th>notifFlag</th>
             <th></th>
             <th></th>
           </tr>
           </thead>
           <tbody>
-          <div class="tasks" th:each="task : ${taskList}">
-            <tr>
-              <th height="60" scope="row"></th>
+          <div class="tasks" th:each="task,state:${taskList}">
+            <tr class="columns">
+              <td height="60" th:text="${state.count}"></td>
               <td height="60" th:text="${task.title}"></td>
               <td height="60" th:text="${task.deadline}"></td>
               <td height="60" th:text="${task.memo}"></td>
-              <td height="60">□</td>
               <td height="60">
                 <form class="" th:action="@{completedtask}" method="post" th:object="${completeId}" onsubmit="return compCheck()">
                   <input type="hidden" name="completeId" th:value="${task.id}" >

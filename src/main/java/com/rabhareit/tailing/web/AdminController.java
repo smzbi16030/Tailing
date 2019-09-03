@@ -92,7 +92,7 @@ public class AdminController {
                     monitor.start(target);
                     counter.count(target);
                     return;
-                  } else if (count == 9) {
+                  } else if (count == 4) {
                     try {
                       StringBuffer buffer = new StringBuffer();
                       List<Map<String,Object>> allTask = jdbc.queryForList("select * from task_model where ownerid = ?",target);
@@ -111,7 +111,7 @@ public class AdminController {
                     }
                     counter.reset(target);
                     monitor.restart(target);
-                  } else if (count > 0 && count < 9) {
+                  } else if (count > 0 && count < 4) {
                     counter.count(target);
                     System.out.println(target + " : count++");
                     return;

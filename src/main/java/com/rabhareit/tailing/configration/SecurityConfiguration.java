@@ -57,7 +57,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
           .apply(new SpringSocialConfigurer().postLoginUrl("/home")
             .connectionAddedRedirectUrl("/home")
             .defaultFailureUrl("/signin?param.error=bad_credentials")
-            .alwaysUsePostLoginUrl(true));
+            .alwaysUsePostLoginUrl(true))
+        .and()
+          .rememberMe()
+        .and()
+          .csrf();
   }
 
   @Autowired
