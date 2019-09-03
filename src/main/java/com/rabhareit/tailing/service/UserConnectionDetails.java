@@ -1,24 +1,23 @@
 package com.rabhareit.tailing.service;
 
-import com.rabhareit.tailing.entity.TailingSocialAccount;
+import com.rabhareit.tailing.entity.UserConnection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.social.security.SocialUserDetails;
 
 import java.util.Collection;
 
-public class TailingSocialUserDetails implements SocialUserDetails {
+public class UserConnectionDetails implements SocialUserDetails {
 
   //private static final long serialVersionUID = -1L;
 
-  private TailingSocialAccount user;
+  private UserConnection user;
 
   private Collection<GrantedAuthority> authorities;
 
 
-  public TailingSocialUserDetails() {}
+  public UserConnectionDetails() {}
 
-  public TailingSocialUserDetails(TailingSocialAccount account, Collection<GrantedAuthority> authorities) {
-    // username = "@~~~",screen name = "user name",twitter id = "(Long)"
+  public UserConnectionDetails(UserConnection account, Collection<GrantedAuthority> authorities) {
     this.user = account;
     this.authorities = authorities;
   }
@@ -29,18 +28,16 @@ public class TailingSocialUserDetails implements SocialUserDetails {
     return this.authorities;
   }
 
-  //DANGER!!
   @Override
-  public String getUserId() { return String.valueOf( user.getTailingId() ); }
+  public String getPassword() { return null; }
 
   @Override
-  public String getPassword() {
-    return user.getPasswd();
-  }
+  public String getUserId() { return String.valueOf( user.getProvideruserid() ); }
 
+  // return @"hogehoge"
   @Override
   public String getUsername() {
-    return user.getUserName();
+    return user.getUserid();
   }
 
   @Override
@@ -59,9 +56,7 @@ public class TailingSocialUserDetails implements SocialUserDetails {
   }
 
   @Override
-  public boolean isEnabled() {
-    return user.isEnabled();
-  }
+  public boolean isEnabled() { return true; }
 
 }
 
