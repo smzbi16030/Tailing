@@ -17,7 +17,6 @@ public class UserConnectionRepository {
   @Autowired
   JdbcTemplate jdbc;
 
-  //TODO ?
   public void insertConnection() { }
 
   public void insertBannerUrl(String bannerurl) {

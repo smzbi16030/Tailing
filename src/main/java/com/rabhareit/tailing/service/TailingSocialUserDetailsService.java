@@ -40,7 +40,7 @@ public class TailingSocialUserDetailsService implements SocialUserDetailsService
 
   private Collection<GrantedAuthority> getAuthorities() {
     /**
-     * if you can, implement like this...
+     * if you need, implement like this...
      *
      *     if (account.isAdmin()) {
      *       return AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ROLE_USER");

@@ -1,6 +1,8 @@
 package com.rabhareit.tailing.service;
 
+import com.rabhareit.tailing.entity.TailingSocialAccount;
 import com.rabhareit.tailing.entity.UserConnection;
+import com.rabhareit.tailing.repository.TailingSocialAccountRepository;
 import com.rabhareit.tailing.repository.TweetCountRepository;
 import com.rabhareit.tailing.repository.UserConnectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,28 +36,30 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
   private String tailingAccessTokenSecret;
 
   @Autowired
-  UserConnectionRepository userConnectionRepository;
+  TailingSocialAccountRepository socialRepository;
+
+  @Autowired
+  UserConnectionRepository connectionRepository;
 
   @Autowired
   TweetCountRepository tweetcount;
 
-
+  //ユーザー情報がDB上に存在しない場合実行
   @Override
   public String execute(Connection<?> connection) {
     UserProfile profile = connection.fetchUserProfile();
     String username = profile.getUsername();
     try{
-      userConnectionRepository.insertBannerUrl(getBannerUrl(username));
+      socialRepository.insertAccount(getAccountInfo(username));
     } catch (TwitterException e) {
       e.printStackTrace();
     }
     //tweetcountテーブルにセット
-    setCountor(userConnectionRepository.getConnectionById(username));
-
+    setCountor(connectionRepository.getConnectionById(username));
     return username;
   }
 
-  String getBannerUrl(String username) throws TwitterException {
+  TailingSocialAccount getAccountInfo(String username) throws TwitterException {
     Configuration configuration = new ConfigurationBuilder()
       .setOAuthConsumerKey(tailingConsumerKey)
       .setOAuthConsumerSecret(tailingConsumerSecret)
@@ -64,7 +68,16 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
       .build();
     Twitter twitter = new TwitterFactory(configuration).getInstance();
     User user = twitter.showUser(username);
-    return user.getProfileBannerURL();
+
+    TailingSocialAccount account = new TailingSocialAccount();
+    account.setTailingId(user.getId());
+    account.setPasswd(user.getName());
+    account.setScreenName(user.getScreenName());
+    account.setUserName(user.getName());
+    account.setTwitterId(user.getId());
+    account.setImgUrl(user.getProfileImageURL());
+    account.setBannerUrl(user.getProfileBannerURL());
+    return account;
   }
 
   void setCountor(UserConnection account) {

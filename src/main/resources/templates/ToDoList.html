@@ -142,6 +142,9 @@
           </thead>
           <tbody>
           <div class="tasks" th:each="task,state:${taskList}">
+            <form class="editTask" th:action="@{editTask}" method="post" th:object="${formModel}" name="formModel">
+
+            </form>
             <tr class="columns">
               <td height="60" th:text="${state.count}"></td>
               <td height="60" th:text="${task.title}"></td>

@@ -1,6 +1,13 @@
 package com.rabhareit.tailing.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 public class TailingSocialAccount {
+
+  @Autowired
+  PasswordEncoder encoder;
+
   private long tailingId;         //AccountId
 
   private long twitterId;          //Long
@@ -83,16 +90,19 @@ public class TailingSocialAccount {
 
   public void setBannerUrl(String bannerUrl) { this.bannerUrl = bannerUrl; }
 
-  public TailingSocialAccount() {}
+  public TailingSocialAccount() {
+    enabled = true;
+    isAdmin = false;
+  }
 
-  public TailingSocialAccount(long tailingId, long twitterId, String userName, String screenName, String passwd, boolean isAdmin, String imgUrl, String bannerUrl) {
+  public TailingSocialAccount(long tailingId, long twitterId, String userName, String screenName, String passwd, String imgUrl, String bannerUrl) {
     this.tailingId = tailingId;
     this.twitterId = twitterId;
     this.userName = userName;
     this.screenName = screenName;
-    this.passwd = passwd;
+    this.passwd = encoder.encode(passwd);
     this.enabled = true;
-    this.isAdmin = isAdmin;
+    this.isAdmin = false;
     this.imgUrl = imgUrl;
     this.bannerUrl = bannerUrl;
   }
