@@ -16,7 +16,7 @@ public class TailingSocialAccountRowMapper implements RowMapper<TailingSocialAcc
     account.setScreenName(rs.getString("screen_name"));
     account.setUserName(rs.getString("user_name"));
     account.setTwitterId(rs.getLong("twitter_id"));
-    account.setImgUrl(rs.getString("img_url"));
+    account.setImageUrl(rs.getString("img_url"));
     account.setBannerUrl(rs.getString("banner_url"));
     return account;
   }

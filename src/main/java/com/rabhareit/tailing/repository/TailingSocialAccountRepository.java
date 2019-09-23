@@ -2,7 +2,6 @@ package com.rabhareit.tailing.repository;
 
 import com.rabhareit.tailing.entity.TailingSocialAccount;
 import com.rabhareit.tailing.mapper.TailingSocialAccountRowMapper;
-import com.rabhareit.tailing.mapper.UserConnectionRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -32,7 +31,7 @@ public class TailingSocialAccountRepository {
   public int insertAccount(TailingSocialAccount account) {
     return jdbc.update("insert into tailing_social_user(tailing_id, enabled, encoded_passwd, is_admin, screen_name, user_name, twitter_id, img_url, banner_url)"
             +"values(?,?,?,?,?,?,?,?,?)" ,
-        account.getTailingId(),true,account.getPasswd(),false,account.getScreenName(),account.getUserName(),account.getTwitterId(),account.getImgUrl(), account.getBannerUrl());
+        account.getTailingId(),true,account.getPasswd(),false,account.getScreenName(),account.getUserName(),account.getTwitterId(),account.getImageUrl(), account.getBannerUrl());
   }
 
   public Long[] getUserIdArray() {

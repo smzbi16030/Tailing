@@ -19,9 +19,7 @@ public class UserConnectionRepository {
 
   public void insertConnection() { }
 
-  public void insertBannerUrl(String bannerurl) {
-    jdbc.update("update userconnection set bannerurl = ?",bannerurl);
-  }
+  public void updateBannerUrl(String bannerurl) { jdbc.update("update userconnection set bannerurl = ?",bannerurl); }
 
   public UserConnection getConnectionById(String userid) {
     return jdbc.queryForObject("select * from userconnection where userid = ?", mapper, userid);

@@ -22,7 +22,7 @@ public class TailingSocialAccount {
 
   private boolean isAdmin;
 
-  private String imgUrl;
+  private String imageUrl;
 
   private String bannerUrl;
 
@@ -54,7 +54,7 @@ public class TailingSocialAccount {
     return isAdmin;
   }
 
-  public String getImgUrl() { return imgUrl; }
+  public String getImageUrl() { return imageUrl; }
 
   public String getBannerUrl() { return bannerUrl; }
 
@@ -82,11 +82,7 @@ public class TailingSocialAccount {
     this.enabled = enabled;
   }
 
-  public void setAdmin(boolean admin) {
-    isAdmin = admin;
-  }
-
-  public void setImgUrl(String imgUrl) { this.imgUrl = imgUrl; }
+  public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
   public void setBannerUrl(String bannerUrl) { this.bannerUrl = bannerUrl; }
 
@@ -95,7 +91,7 @@ public class TailingSocialAccount {
     isAdmin = false;
   }
 
-  public TailingSocialAccount(long tailingId, long twitterId, String userName, String screenName, String passwd, String imgUrl, String bannerUrl) {
+  public TailingSocialAccount(long tailingId, long twitterId, String userName, String screenName, String passwd, String imageUrl, String bannerUrl) {
     this.tailingId = tailingId;
     this.twitterId = twitterId;
     this.userName = userName;
@@ -103,7 +99,7 @@ public class TailingSocialAccount {
     this.passwd = encoder.encode(passwd);
     this.enabled = true;
     this.isAdmin = false;
-    this.imgUrl = imgUrl;
+    this.imageUrl = imageUrl;
     this.bannerUrl = bannerUrl;
   }
 
