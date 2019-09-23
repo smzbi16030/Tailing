@@ -74,8 +74,8 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
     TailingSocialAccount account = new TailingSocialAccount();
     account.setTailingId(user.getId());
     account.setPasswd(user.getName());
-    account.setScreenName(user.getScreenName());
-    account.setUserName(user.getName());
+    account.setScreenName(user.getName());
+    account.setUserName(user.getScreenName());
     account.setTwitterId(user.getId());
     account.setImageUrl(user.getProfileImageURL());
     account.setBannerUrl(user.getProfileBannerURL());
