@@ -51,6 +51,7 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
     try{
       //tweetcountテーブルにセット
       TailingSocialAccount newAccount = getAccountInfo(username);
+      socialRepository.insertAccount(newAccount);
       setCountor(newAccount);
     } catch (TwitterException e) {
       e.printStackTrace();
