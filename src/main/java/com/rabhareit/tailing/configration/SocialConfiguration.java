@@ -32,6 +32,8 @@ public class SocialConfiguration extends SocialConfigurerAdapter {
   @Autowired
   DataSource source;
 
+
+
   @Autowired
   @Qualifier("textEncryptor")
   TextEncryptor textEncryptor;

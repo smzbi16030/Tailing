@@ -1,5 +1,6 @@
 package com.rabhareit.tailing.repository;
 
+import com.rabhareit.tailing.entity.UserConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

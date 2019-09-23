@@ -1,7 +1,6 @@
 package com.rabhareit.tailing.service;
 
 import com.rabhareit.tailing.entity.TailingSocialAccount;
-import com.rabhareit.tailing.entity.UserConnection;
 import com.rabhareit.tailing.repository.TailingSocialAccountRepository;
 import com.rabhareit.tailing.repository.TweetCountRepository;
 import com.rabhareit.tailing.repository.UserConnectionRepository;
@@ -44,18 +43,20 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
   @Autowired
   TweetCountRepository tweetcount;
 
-  //ユーザー情報がDB上に存在しない場合実行
+  //ユーザー情報がDB上に存在しない場合実行. 暗黙的サインアップ
   @Override
   public String execute(Connection<?> connection) {
     UserProfile profile = connection.fetchUserProfile();
     String username = profile.getUsername();
     try{
-      socialRepository.insertAccount(getAccountInfo(username));
+      //tweetcountテーブルにセット
+      TailingSocialAccount newAccount = getAccountInfo(username);
+      setCountor(newAccount);
     } catch (TwitterException e) {
       e.printStackTrace();
+      // when null is returned, nothing is inserted to "userConnection".
+      return null;
     }
-    //tweetcountテーブルにセット
-    setCountor(connectionRepository.getConnectionById(username));
     return username;
   }
 
@@ -80,8 +81,6 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
     return account;
   }
 
-  void setCountor(UserConnection account) {
-    tweetcount.setCountor(account.getProvideruserid(), account.getUserid(),0);
-  }
+  void setCountor(TailingSocialAccount account) {tweetcount.setCountor(account.getTwitterId(), account.getUserName(), 0);}
 
 }
