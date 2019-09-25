@@ -77,8 +77,8 @@ public class ConnectionSignUpImpl implements ConnectionSignUp {
     account.setScreenName(user.getName());
     account.setUserName(user.getScreenName());
     account.setTwitterId(user.getId());
-    account.setImageUrl(user.getProfileImageURL());
-    account.setBannerUrl(user.getProfileBannerURL());
+    account.setImageUrl(user.getOriginalProfileImageURLHttps());
+    account.setBannerUrl(user.getProfileBannerURL() + "_retina");
     return account;
   }
 
