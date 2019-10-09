@@ -1,6 +1,7 @@
 package com.rabhareit.tailing.service;
 
 import com.rabhareit.tailing.entity.UserConnection;
+import com.rabhareit.tailing.repository.TailingSocialAccountRepository;
 import com.rabhareit.tailing.repository.UserConnectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +17,6 @@ import java.util.Optional;
 
 /**
  * Social ログイン時の userDetailService として利用
- *
  */
 
 @Service
@@ -25,6 +25,9 @@ public class TailingSocialUserDetailsService implements SocialUserDetailsService
 
   @Autowired
   UserConnectionRepository userConnection;
+
+  @Autowired
+  TailingSocialAccountRepository socialRepository;
 
   @Override
   public SocialUserDetails loadUserByUserId(String username) throws UsernameNotFoundException {

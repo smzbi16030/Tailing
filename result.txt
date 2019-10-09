@@ -18351,7 +18351,7 @@ Concrete Classes:
     com.rabhareit.tailing.configration.SecurityConfiguration
     com.rabhareit.tailing.configration.SecurityConfiguration$1
     com.rabhareit.tailing.configration.SocialConfiguration
-    com.rabhareit.tailing.configration.TwitterConfiguration
+    com.rabhareit.tailing.configration.TwitterContext
 
 Depends Upon:
     com.rabhareit.tailing.service

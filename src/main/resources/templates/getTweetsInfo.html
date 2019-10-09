@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <title>Tweet情報取得</title>
+    <!-- External css for fontawesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <!-- External css for bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  </head>
+  <body>
+    <form class="" th:action="@{'/get/search'}" method="post" th:object="${keyword}">
+      <input name="keyword" class="form-control keyword" type="text">
+      <button type="submit" class="btn btn-primary">検索</button>
+    </form>
+    <div th:if="${downloadLink}">
+      <a th:href="@{'/download/' + ${filename} + '.csv'}">CSVにエクスポート</a>
+    </div>
+    <div class="resultTable">
+      <table>
+        <thead>
+          <tr>
+            <th>Count</th>
+            <th></th>
+            <th>Id</th>
+            <th>Text</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <div class="result" th:each="result,state:${resultList}">
+            <tr>
+              <td th:text="${state.count}"></td>
+              <td><img th:src="@{${result.userPlofileImageUrl}}"></img></td>
+              <td th:text="${result.id}"></td>
+              <td th:text="${result.text}"></td>
+              <td th:text="${result.createAt}"></td>
+            </tr>
+          </div>
+        </tbody>
+      </table>
+    </div>
+    <!-- External script for bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  </body>
+</html>

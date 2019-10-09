@@ -11,10 +11,7 @@ import org.springframework.security.core.Authentication;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rabhareit.tailing.web.form.AddTaskForm;
@@ -22,6 +19,10 @@ import com.rabhareit.tailing.web.form.AddTaskForm;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * もうちょい小さく分ける
+ *
+ */
 @Controller
 public class FrontController {
 
@@ -91,7 +92,8 @@ public class FrontController {
     return mav;
   }
 
-  @PostMapping("/addTask")
+  //rename to update
+  @PostMapping("/updTask")
   String addNewTask(@RequestParam(name="title",required=true)String title,
                     @RequestParam(name="deadline",required=true)String deadline,
                     @RequestParam(name="memo",required=true)String memo,
@@ -99,8 +101,11 @@ public class FrontController {
   {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String username = auth.getName();
-    System.out.println(ownerId);
-    taskrepo.addNewTask(title, util.string2SqlDate(deadline),memo,username);
+    if (ownerId.equals(null)) {
+      taskrepo.addNewTask(title, util.string2SqlDate(deadline),memo,username);
+    } else {
+      taskrepo.updateTask(Long.parseLong(ownerId),title,util.string2SqlDate(deadline),memo);
+    }
     return "redirect:/home";
   }
 
@@ -127,4 +132,5 @@ public class FrontController {
     mav.setViewName("maintenance");
     return mav;
   }
+
 }

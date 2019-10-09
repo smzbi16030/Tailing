@@ -28,12 +28,6 @@
   margin-left: auto;
 }
 
-.userList, .allTask, .privateTask, .workTask, .addTask {
-  display: block;
-  width: 100%;
-  font-size: 24px;
-}
-
 .listLabel {
   margin-left: 20%;
 }
