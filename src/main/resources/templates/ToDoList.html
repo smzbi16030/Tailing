@@ -78,10 +78,9 @@
                 <div class="textbox">
                   <!-- TODO 変数の名前を統一する -->
                   <input type="hidden" name="userid" th:field="*{ownerId}" th:value="*{ownerId}">
-                  <input id="title" required="" type="text" th:field="*{title}"><label for="title">タイトル</label>
+                  <input id="title" required="true" type="text" th:field="*{title}"><label for="title">タイトル</label>
                   <span class="highlight"></span>
                   <span class="bar"></span>
-                  <div class="error">タイトルを入力してください</div>
                 </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <div aria-hidden="true">×</div>
@@ -141,6 +140,7 @@
         <table class="table">
           <thead>
           <tr>
+            <th></th>
             <th>#</th>
             <th>タイトル</th>
             <th>期限</th>
@@ -152,7 +152,7 @@
           <tbody>
           <div class="tasks" th:each="task,state:${taskList}">
             <tr class="columns">
-                <td><button id="showBtn"></button></td>
+                <td><button class="showBtn"></button></td>
                 <td height="60" th:text="${state.count}"></td>
                 <td height="60" th:text="${task.title}" ></td>
                 <td height="60" th:text="${task.deadline}"></td>
@@ -170,20 +170,38 @@
                 </form>
               </td>
 
-            <div class="editModal" id="popup">
-              <div class="modalInner">
-                <div class="closeBtn" id="closeBtn"><i class="fas fa-times"></i></div>
-                  <div class="modelBody">
-                    <input type="text" name="title" class="textbox" id="titleEdit"><label for="titleEdit">サンプル</label>
-                    <input type="date" name="limit" class="textbox" value="">
-                    <textarea name="memo" cols="30" rows="10"></textarea>
+              <div class="editModal" id="popup">
+                <div class="modalInner">
+                  <div class="closeBtn" id="closeBtn"><i class="fas fa-times"></i></div>
+                    <div class="model-content">
+                      <form class="" th:action="@{updTask}" method="post" th:object=${formModel} name="formModel">
+                        <div class="modal-header">
+                          <input type="text" name="title" class="textbox" id="titleEdit" th:value="${task.title}"><label for="titleEdit">タイトル</label>
+                        </div>
+                        <div class="model-body">
+                          <span class="limit">
+                            <i class="fas fa-hourglass-half"></i>
+                          </span>
+                          <span class="limit">
+                            <input type="date" name="deadline" th:value="${task.deadline}">
+                            <span class="info">
+                              <span class="tooltip">期限を決めてください</span>
+                            </span>
+                          </span>
+                          <span class="memo">
+                            <i class="fas fa-pen"></i>
+                          </span>
+                          <span class="memo">
+                            <textarea name="memo" class="discription" cols="30" rows="10" th:value="${task.memo}"></textarea>
+                          </span>
+                        </div>
+                      </form>
+                    </div>
                   </div>
-              </div>
-              <div class="background" id="bg"></div>
+                  <div class="background" id="bg"></div>
+                </div>
+              </tr>
             </div>
-
-            </tr>
-          </div>
           </tbody>
         </table>
       </div>

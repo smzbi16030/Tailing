@@ -89,11 +89,13 @@ public class TwitterInfoGetterController {
 
       if (result.getCount() < 99) break;
 
+      /*
       try{
         Thread.sleep(3000);
       } catch (InterruptedException ie) {
         ie.printStackTrace();
       }
+      */
 
       query = result.nextQuery();
     }

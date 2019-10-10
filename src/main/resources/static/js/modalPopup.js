@@ -4,7 +4,7 @@ function popupModal() {
 
   var bg = document.getElementById('bg');
   var closeBtn = document.getElementById('closeBtn');
-  var showBtn = document.getElementById('showBtn');
+  var showBtn = document.getElementsByClassName('showBtn');
 
   function closePopup(elem) {
     if(!elem) return;
@@ -15,8 +15,9 @@ function popupModal() {
 
   closePopup(bg);
   closePopup(closeBtn);
-  closePopup(showBtn);
-
+  for (var i = 0; i < showBtn.length; i++) {
+   closePopup(showBtn[i])
+  }
 }
 
 popupModal();

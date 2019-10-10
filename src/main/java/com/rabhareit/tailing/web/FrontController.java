@@ -97,14 +97,14 @@ public class FrontController {
   String addNewTask(@RequestParam(name="title",required=true)String title,
                     @RequestParam(name="deadline",required=true)String deadline,
                     @RequestParam(name="memo",required=true)String memo,
-                    @RequestParam(name="ownerId", required=true)String ownerId)
+                    @RequestParam(name="ownerId", required=true)String taskId)
   {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String username = auth.getName();
-    if (ownerId.equals(null)) {
+    if (taskId.equals(null)) {
       taskrepo.addNewTask(title, util.string2SqlDate(deadline),memo,username);
     } else {
-      taskrepo.updateTask(Long.parseLong(ownerId),title,util.string2SqlDate(deadline),memo);
+      taskrepo.updateTask(Long.parseLong(taskId),title,util.string2SqlDate(deadline),memo);
     }
     return "redirect:/home";
   }

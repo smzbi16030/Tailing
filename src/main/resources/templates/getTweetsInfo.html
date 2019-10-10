@@ -13,32 +13,37 @@
       <input name="keyword" class="form-control keyword" type="text">
       <button type="submit" class="btn btn-primary">検索</button>
     </form>
+    <div class="notice">
+      <p>できるだけ多くのツイートを表示しているので、検索には少し時間がかかります。</p>
+      <p>本家Twitterで使用可能なコマンド検索は全て行えます。（OR検索など）</p>
+      <p>エクスポートするcsvの書式は［発言者のTwitterId, Tweet内容(改行は半角スペースに置き換え), Tweetされた時刻］です。</p>
+    </div>
     <div th:if="${downloadLink}">
       <a th:href="@{'/download/' + ${filename} + '.csv'}">CSVにエクスポート</a>
-    </div>
-    <div class="resultTable">
-      <table>
-        <thead>
-          <tr>
-            <th>Count</th>
-            <th></th>
-            <th>Id</th>
-            <th>Text</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <div class="result" th:each="result,state:${resultList}">
+      <div class="resultTable">
+        <table>
+          <thead>
             <tr>
-              <td th:text="${state.count}"></td>
-              <td><img th:src="@{${result.userPlofileImageUrl}}"></img></td>
-              <td th:text="${result.id}"></td>
-              <td th:text="${result.text}"></td>
-              <td th:text="${result.createAt}"></td>
+              <th>Count</th>
+              <th></th>
+              <th>Id</th>
+              <th>Text</th>
+              <th>Date</th>
             </tr>
-          </div>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <div class="result" th:each="result,state:${resultList}">
+              <tr>
+                <td th:text="${state.count}"></td>
+                <td><img th:src="@{${result.userPlofileImageUrl}}"></img></td>
+                <td th:text="${result.id}"></td>
+                <td th:text="${result.text}"></td>
+                <td th:text="${result.createAt}"></td>
+              </tr>
+            </div>
+          </tbody>
+        </table>
+      </div>
     </div>
     <!-- External script for bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
