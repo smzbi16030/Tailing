@@ -78,7 +78,8 @@
                 <div class="textbox">
                   <!-- TODO 変数の名前を統一する -->
                   <input type="hidden" name="userid" th:field="*{ownerId}" th:value="*{ownerId}">
-                  <input id="title" required="true" type="text" th:field="*{title}"><label for="title">タイトル</label>
+                  <label for="title">タイトル</label>
+                  <input id="title" required="true" type="text" th:field="*{title}">
                   <span class="highlight"></span>
                   <span class="bar"></span>
                 </div>
@@ -176,7 +177,9 @@
                     <div class="model-content">
                       <form class="" th:action="@{updTask}" method="post" th:object=${formModel} name="formModel">
                         <div class="modal-header">
-                          <input type="text" name="title" class="textbox" id="titleEdit" th:value="${task.title}"><label for="titleEdit">タイトル</label>
+                          <input type="hidden" name="ownerId" th:field="*{ownerId}" th:value="${task.id}">
+                          <label for="titleEdit">タイトル</label>
+                          <input type="text" name="title" class="textbox" id="titleEdit" th:value="${task.title}">
                         </div>
                         <div class="model-body">
                           <span class="limit">
@@ -194,6 +197,7 @@
                           <span class="memo">
                             <textarea name="memo" class="discription" cols="30" rows="10" th:value="${task.memo}"></textarea>
                           </span>
+                          <button type="submit" name="update" class="btn btn-primary">更新</button>
                         </div>
                       </form>
                     </div>

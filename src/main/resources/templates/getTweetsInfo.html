@@ -7,16 +7,32 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <!-- External css for bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/getTweetsInfo.css">
+
+    <style type="text/css">
+      .input-group {
+        width: 40%;
+        margin: auto;
+        top: 20px;
+      }
+
+      .notice {
+        margin: 5%;
+      }
+    </style>
+
   </head>
   <body>
     <form class="" th:action="@{'/get/search'}" method="post" th:object="${keyword}">
-      <input name="keyword" class="form-control keyword" type="text">
-      <button type="submit" class="btn btn-primary">検索</button>
+      <div class="input-group">
+        <input name="keyword" class="form-control keyword" type="text">
+        <button type="submit" class="btn btn-primary">検索</button>
+      </div>
     </form>
     <div class="notice">
-      <p>できるだけ多くのツイートを表示しているので、検索には少し時間がかかります。</p>
-      <p>本家Twitterで使用可能なコマンド検索は全て行えます。（OR検索など）</p>
-      <p>エクスポートするcsvの書式は［発言者のTwitterId, Tweet内容(改行は半角スペースに置き換え), Tweetされた時刻］です。</p>
+      <p>・できるだけ多くのツイートを表示しているので、検索には少し時間がかかります。</p>
+      <p>・本家Twitterで使用可能なコマンド検索は全て行えます。（OR検索など）</p>
+      <p>・エクスポートするcsvの書式は［発言者のTwitterId, Tweet内容(改行は半角スペースに置き換え), Tweetされた時刻］です。</p>
     </div>
     <div th:if="${downloadLink}">
       <a th:href="@{'/download/' + ${filename} + '.csv'}">CSVにエクスポート</a>

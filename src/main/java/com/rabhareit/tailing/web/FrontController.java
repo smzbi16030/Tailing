@@ -97,7 +97,7 @@ public class FrontController {
   String addNewTask(@RequestParam(name="title",required=true)String title,
                     @RequestParam(name="deadline",required=true)String deadline,
                     @RequestParam(name="memo",required=true)String memo,
-                    @RequestParam(name="ownerId", required=true)String taskId)
+                    @RequestParam(name="ownerId")String taskId)
   {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String username = auth.getName();
