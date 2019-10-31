@@ -1,5 +1,0 @@
-RewriteEngine On
-RewriteBase /
-RewriteRule ^/maintenance - [L]
-RewriteCond %{REMOTE_ADDR} !^(192.168.0.22)$
-RewriteRule ^(.*)$ https://tailing.herokuapp.com/maintenance [R=503,L]
