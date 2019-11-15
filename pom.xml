@@ -16,11 +16,6 @@
 
 	<repositories>
 		<repository>
-			<id>maven.google.com</id>
-			<name>maven.google.com</name>
-			<url>https://maven.google.com/</url>
-		</repository>
-		<repository>
 			<id>SpringLibRelease</id>
 			<name>SpringLibRelease</name>
 			<url>http://repo.spring.io/libs-release/</url>
@@ -33,14 +28,6 @@
 
 
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
-<!--
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>5.1.5.RELEASE</version>
-		</dependency>
--->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -76,17 +63,6 @@
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
       <version>2.1.4.RELEASE</version>
     </dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring3 -->
-		<!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring4 -->
-		<!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5 -->
-		<!--
-		<dependency>
-			<groupId>org.thymeleaf</groupId>
-			<artifactId>thymeleaf-spring5</artifactId>
-			<version>3.0.10.RELEASE</version>
-		</dependency>
-	-->
 		<!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity4 -->
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
@@ -107,37 +83,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
-		</dependency>
-	-->
-
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5.9</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-jdbc -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 			<version>2.1.6.RELEASE</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>5.1.8.RELEASE</version>
-		</dependency>
+
 		<!-- PostgreSQL -->
 		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>
@@ -159,37 +111,11 @@
 			<artifactId>spring-social-security</artifactId>
 			<version>1.1.6.RELEASE</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.social/spring-social-web -->
-<!--
-		<dependency>
-			<groupId>org.springframework.social</groupId>
-			<artifactId>spring-social-web</artifactId>
-			<version>1.1.6.RELEASE</version>
-		</dependency>
--->
-		<!-- https://mvnrepository.com/artifact/org.springframework.social/spring-social-config -->
-<!--
-		<dependency>
-			<groupId>org.springframework.social</groupId>
-			<artifactId>spring-social-config</artifactId>
-			<version>1.1.6.RELEASE</version>
-		</dependency>
--->
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-social-twitter -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-social-twitter</artifactId>
 			<version>1.5.16.RELEASE</version>
-		</dependency>
-
-		<!-- lombok -->
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-			<version>1.16.22</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- Twitter4j -->
@@ -212,29 +138,6 @@
 			<version>3.9</version>
 		</dependency>
 
-		<!-- firebase -->
-		<!-- https://mvnrepository.com/artifact/com.google.firebase/firebase-admin -->
-		<dependency>
-			<groupId>com.google.firebase</groupId>
-			<artifactId>firebase-admin</artifactId>
-			<version>6.8.1</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.google.gms/google-services -->
-		<dependency>
-			<groupId>com.google.gms</groupId>
-			<artifactId>google-services</artifactId>
-			<version>3.0.0</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-aws-autoconfigure -->
-		<!--
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-aws-autoconfigure</artifactId>
-			<version>2.1.1.RELEASE</version>
-		</dependency>
--->
 	</dependencies>
 	
 	<build>
