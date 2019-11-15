@@ -109,7 +109,7 @@ public class TwitterInfoGetterController {
 
   @RequestMapping("/download/{filename}")
   ResponseEntity<byte[]> download(@PathVariable String filename) throws IOException {
-    Path tempfile = Paths.get("./temp/download/" + filename);
+    Path tempfile = Paths.get("/tmp/" + filename);
     if(!Files.exists(tempfile)) {
       exception.downloadFileDoesNotReadyException();
     }
