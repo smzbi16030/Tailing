@@ -56,7 +56,7 @@ public class TwitterInfoGetterController {
       return mav;
     }
     String filename = (new Date()).toString().replaceAll("[^a-zA-z0-9]", "_");
-    BufferedWriter writer = new BufferedWriter(new FileWriter("./temp/download/" + filename + ".csv"));
+    BufferedWriter writer = new BufferedWriter(new FileWriter("./tmp/download/" + filename + ".csv"));
     Configuration configuration = new ConfigurationBuilder()
         .setOAuthConsumerKey(tailingConsumerKey)
         .setOAuthConsumerSecret(tailingConsumerSecret)
