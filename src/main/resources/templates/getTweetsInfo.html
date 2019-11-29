@@ -23,9 +23,11 @@
 
   </head>
   <body>
-    <form class="" th:action="@{'/get/search'}" method="post" th:object="${keyword}">
+    <form class="" th:action="@{'/get/search'}" method="post" th:object="${query}">
       <div class="input-group">
-        <input name="keyword" class="form-control keyword" type="text">
+        <input name="query" class="form-control keyword" type="text">
+        <input name="since" type="date">
+        <input name="until" type="date">
         <button type="submit" class="btn btn-primary">検索</button>
       </div>
     </form>

@@ -1,6 +1,7 @@
 package com.rabhareit.tailing.web;
 
 import com.rabhareit.tailing.entity.TweetInfoModel;
+import com.rabhareit.tailing.web.form.SearchQuery;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -49,8 +50,15 @@ public class TwitterInfoGetterController {
   }
 
   @RequestMapping(value="/get/search", method=RequestMethod.POST)
-  ModelAndView searchTweets(@RequestParam(name="keyword", required=false) String keyword, ModelAndView mav) throws TwitterException, InterruptedException, IOException {
-    if(keyword.equals("") || keyword.equals(null)) {
+  ModelAndView searchTweets(@ModelAttribute("query") SearchQuery input, ModelAndView mav) throws TwitterException, InterruptedException, IOException {
+    //input.setSince(input.getSince());
+    //input.setUntil(input.getUntil());
+
+    System.out.println("searchQuery: " + input.getQuery());
+    System.out.println("Since: " + input.getSince());
+    System.out.println("Until: " + input.getUntil());
+
+    if(input.getQuery().equals("") || input.getQuery().equals(null)) {
       mav.setViewName("getTweetsInfo");
       mav.addObject("downloadLink",false);
       return mav;
@@ -67,12 +75,16 @@ public class TwitterInfoGetterController {
     Twitter twitter = new TwitterFactory(configuration).getInstance();
 
     List<TweetInfoModel> resultsList = new ArrayList<>();
-    Query query = new Query(keyword);
-    query.setCount(100);
-    query.setResultType(Query.RECENT);
+    Query searchQuery = new Query(input.getQuery());
+    searchQuery.setCount(100);
+    // searchQuery.setResultType(Query.RECENT);
+
+    // format : YYYY-MM-DD_hh:mm:ss_ZZZ
+    //searchQuery.setSince(input.getSince());
+    //searchQuery.setUntil(input.getUntil());
 
     for (int i = 0; i < 15; i++) {
-      QueryResult result = twitter.search(query);
+      QueryResult result = twitter.search(searchQuery);
       for (Status status : result.getTweets()) {
         if (!status.getText().startsWith("RT")) {
           TweetInfoModel info = new TweetInfoModel();
@@ -97,7 +109,7 @@ public class TwitterInfoGetterController {
       }
       */
 
-      query = result.nextQuery();
+      searchQuery = result.nextQuery();
     }
     writer.close();
     mav.setViewName("getTweetsInfo");
