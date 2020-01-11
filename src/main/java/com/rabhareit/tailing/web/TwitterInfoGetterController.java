@@ -54,10 +54,6 @@ public class TwitterInfoGetterController {
     //input.setSince(input.getSince());
     //input.setUntil(input.getUntil());
 
-    System.out.println("searchQuery: " + input.getQuery());
-    System.out.println("Since: " + input.getSince());
-    System.out.println("Until: " + input.getUntil());
-
     if(input.getQuery().equals("") || input.getQuery().equals(null)) {
       mav.setViewName("getTweetsInfo");
       mav.addObject("downloadLink",false);
@@ -76,12 +72,22 @@ public class TwitterInfoGetterController {
 
     List<TweetInfoModel> resultsList = new ArrayList<>();
     Query searchQuery = new Query(input.getQuery());
+    if (input.getSince() != null) {
+      searchQuery.setSince(input.getSince());
+    }
+    if (input.getUntil() != null) {
+      searchQuery.setUntil(input.getUntil());
+    }
+    //searchQuery.setResultType(Query.POPULAR);
     searchQuery.setCount(100);
-    // searchQuery.setResultType(Query.RECENT);
 
+    System.out.println(searchQuery);
     // format : YYYY-MM-DD_hh:mm:ss_ZZZ
-    //searchQuery.setSince(input.getSince());
-    //searchQuery.setUntil(input.getUntil());
+    searchQuery.setSince(input.getSince());
+    searchQuery.setUntil(input.getUntil());
+
+
+
 
     for (int i = 0; i < 15; i++) {
       QueryResult result = twitter.search(searchQuery);
@@ -108,8 +114,11 @@ public class TwitterInfoGetterController {
         ie.printStackTrace();
       }
       */
-
-      searchQuery = result.nextQuery();
+      if (result.hasNext()) {
+        searchQuery = result.nextQuery();
+      } else {
+        break;
+      }
     }
     writer.close();
     mav.setViewName("getTweetsInfo");
